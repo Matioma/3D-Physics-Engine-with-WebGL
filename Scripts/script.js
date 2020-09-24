@@ -22,6 +22,10 @@ const fsSource =`
     }
 `;
 
+let cubeRotation = 1.0;
+
+
+
 function main(){
     let canvas = document.getElementById("canvas");
     const gl = canvas.getContext("webgl");
@@ -48,6 +52,22 @@ function main(){
 
     const buffers =  initBuffers(gl);
     drawScene(gl,programInfo, buffers);
+
+    
+    let then =0.0;
+
+    function render(now){
+        now *= 0.001;
+        const deltaTime = now -then;
+        cubeRotation+=deltaTime;
+        then = now;
+
+        drawScene(gl,programInfo,buffers,deltaTime);
+
+        requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+
 
 }
 
@@ -89,27 +109,90 @@ function loadShader(gl, type, source){
 function initBuffers(gl){
     const positionBuffer = gl.createBuffer();   
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     const positions = [
-        -1.0,  1.0, 0.5, 1,
-         1.0,  1.0, 1.0, 1,
-        -1.0, -1.0, -0.5, 1,
-         1.0, -1.0, -0.1, 1,
-    ];
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        //Front face
+        -1.0,  1.0, 1.0, 
+         1.0,  1.0, 1.0, 
+        -1.0, -1.0, 1.0, 
+         1.0, -1.0, 1.0, 
 
-    const colorBuffer =gl.createBuffer();
-    const colors = [
-        1.0,1.0,1.0,1.0,
-        1.0,0.0,0.0,1.0,
-        0.0,1.0,0.0,1.0,
-        0.0,0.0,1.0,1.0,
+         // Back face
+        -1.0, -1.0, -1.0,
+        -1.0,  1.0, -1.0,
+        1.0,  1.0, -1.0,
+        1.0, -1.0, -1.0,
+        
+        // Top face
+        -1.0,  1.0, -1.0,
+        -1.0,  1.0,  1.0,
+        1.0,  1.0,  1.0,
+        1.0,  1.0, -1.0,
+        
+        // Bottom face
+        -1.0, -1.0, -1.0,
+        1.0, -1.0, -1.0,
+        1.0, -1.0,  1.0,
+        -1.0, -1.0,  1.0,
+        
+        // Right face
+        1.0, -1.0, -1.0,
+        1.0,  1.0, -1.0,
+        1.0,  1.0,  1.0,
+        1.0, -1.0,  1.0,
+
+         //Left face
+        -1.0,  1.0,-1.0, 
+        -1.0,  1.0, 1.0, 
+        -1.0, -1.0, 1.0, 
+        -1.0, -1.0,-1.0,
+    ];
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    
+    const faceColors = [
+        [1.0,1.0,1.0,1.0],
+        [1.0,0.0,0.0,1.0],
+        [0.0,1.0,0.0,1.0],
+        [0.0,0.0,1.0,1.0],
+        [1.0,1.0,0.0,1.0],
+        [1.0,0.0,1.0,1.0]
     ]
-    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(colorBuffer),gl.STATIC_DRAW);
+
+    var colors = [];
+
+    for (var i = 0; i < faceColors.length; ++i) {
+        const c = faceColors[i];
+
+        // Repeat each color four times for the four vertices of the face
+        colors = colors.concat(c, c, c, c);
+    }
+    
+    const colorBuffer =gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER,colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(colors),gl.STATIC_DRAW);
+
+
+    
+    const indices =[
+        0,1,2,    0,2,3, //front
+        4,5,6,    4,6,7, //back
+        8,9,10,   8,10,11, //top
+        12,13,14, 12,14,15, //bottom
+        16,17,18, 16,18,19, //right
+        20,21,22, 20,22,23, //left
+
+    ];
+
+    const indexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+
 
     return{
         position:positionBuffer,
-        color:colorBuffer
+        color:colorBuffer,
+        indices: indexBuffer,
     };
 }
 
@@ -141,12 +224,17 @@ function drawScene(gl,programInfo,buffers){
     mat4.translate(
         modelMatrix,
         modelMatrix,
-        [-0.0,0.0, -3]);
+        [-0.0,0.0, -6]);
 
+    mat4.rotate(
+        modelMatrix,
+        modelMatrix,
+        cubeRotation*.7, //amount to rotate in radians
+        [0,1,1]); // rotate around which axis
    
-    //Set up 
+    //Set up postion trasnsfer
     {
-        const numComponents =4;
+        const numComponents =3;
         const type =gl.FLOAT;
         const normalize = false;
         const stride = 0;
@@ -171,7 +259,7 @@ function drawScene(gl,programInfo,buffers){
 
     //tell vertex shader how to pull color from colors buffer 
     {
-        const numberOfComponent = 4; // how many values per variable,
+        const numberComponents = 4; // how many values per variable,
         const type = gl.FLOAT; //Type of the values sent
         const normalize =false; //Do not normalize the vector,
         const stride =0;
@@ -180,7 +268,7 @@ function drawScene(gl,programInfo,buffers){
         gl.bindBuffer(gl.ARRAY_BUFFER,buffers.color); //add a buffer  of a type Array Buffer
         gl.vertexAttribPointer(
             programInfo.attribLocations.vertextColor, //id of the attibute in the gpu
-            numberOfComponent, //number of components per attribute
+            numberComponents, //number of components per attribute
             type, // type of each component per attribute
             normalize,
             stride,
@@ -190,6 +278,8 @@ function drawScene(gl,programInfo,buffers){
             programInfo.attribLocations.vertextColor
         );
     }
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,buffers.indices);
 
     gl.useProgram(programInfo.program);
 
@@ -205,9 +295,14 @@ function drawScene(gl,programInfo,buffers){
         modelMatrix);
 
     {
+        const vertexCount = 36;
+        const type = gl.UNSIGNED_SHORT;
         const offset =0;
-        const vertexCount =4;
-        gl.drawArrays(gl.TRIANGLE_STRIP,offset,vertexCount); 
+        gl.drawElements(gl.TRIANGLES,vertexCount,type,offset);
+
+        // const offset =0;
+        // const vertexCount =4;
+        // gl.drawArrays(gl.TRIANGLE_STRIP,offset,vertexCount); 
     }
    
 }
