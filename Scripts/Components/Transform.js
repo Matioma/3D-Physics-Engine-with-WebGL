@@ -49,7 +49,7 @@ export default class Transform extends Component{
     }
     
     Step(){
-         console.log("Transform Step Method");
+        //  console.log("Transform Step Method");
     }
 
 }
