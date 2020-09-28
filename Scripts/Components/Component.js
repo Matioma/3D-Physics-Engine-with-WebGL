@@ -4,10 +4,12 @@ export default class Component{
             console.log("Can not instantiate Component Directly, they must be inheritated \"Like abstract classes\" ");
             return;
         }
+        this.owner = undefined;
+
         this.Start();
     }
 
     //
     Start(){};
-    Update(){};
+    Step(){};
 }
