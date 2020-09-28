@@ -5,12 +5,18 @@ export default class Vector3{
         this.z = z;
     }
     set(x, y,z){
+        if((x instanceof Vector3) && (y == undefined || z==undefined )){
+            this.x =x.x;
+            this.y = x.y;
+            this.z = x.z;
+            return;
+        }
         this.x = x;
         this.y = y;
         this.z = z;
     }
     add(x, y, z){
-        if(y == undefined || z==undefined){
+        if((x instanceof Vector3) && (y == undefined || z==undefined)){
             this.x +=x.x;
             this.y += x.y;
             this.z += x.z;
