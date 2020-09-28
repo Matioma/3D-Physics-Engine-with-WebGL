@@ -2,29 +2,48 @@ import Vector3 from "../Math/Vector3.js"
 import Component from "./Component.js";
 
 export default class Transform extends Component{
-    constructor(position, rotation, scale){
+    constructor(){
         super();
-        if(!(position instanceof Vector3)){
-            console.log("Ensure that the position is of Type Vector3");
-        }
-        if(!(rotation instanceof Vector3)){
-            console.log("Ensure that the rotation is of Type Vector3");
-        }
-        if(!(scale instanceof Vector3)){
-            console.log("Ensure that the scale is of Type Vector3");
-        }
 
-        this.position = position;
-        this.rotation = rotation;
-        this.scale = scale;
+        this._position = new Vector3();
+        this._rotation = new Vector3();
+        this._scale = new Vector3(1,1,1);
     }
 
-    // get position(){
-    //     return this.position;
-    // }
-    // set position(newPosition){
-    //     this.position.set(newPosition);
-    // }
+    get position(){
+        return this._position;
+    }
+    set position(newPosition){
+        this._position.set(newPosition);
+    }
+
+    //Rotates the object
+    rotate(x,y,z){
+        //If only one parameter is sent
+        if(y == undefined || z == undefined){
+            //check if sent parameter is Vector3
+            if(x instanceof Vector3){
+                this._rotation.add(x);
+            }else{
+                console.error("Make sure the Parameter is a vector3 object");                
+            }
+            return;
+        }
+        this._rotation.add(x,y,z);
+    }
+    //Sets the scale of the object
+    scale(x,y,z){
+        if(y == undefined || z == undefined){
+            //check if sent parameter is Vector3
+            if(x instanceof Vector3){
+                this._scale = x.copyVector();
+            }else{
+                console.error("Make sure the Parameter is a vector3 object");                
+            }
+            return;
+        }
+        this._rotation.set(x,y,z);
+    }
     Start(){
         // console.log("Transform Start Methods");
     }

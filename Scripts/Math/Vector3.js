@@ -16,12 +16,15 @@ export default class Vector3{
         this.z = z;
     }
     add(x, y, z){
+        //If only one parameter sent
         if((x instanceof Vector3) && (y == undefined || z==undefined)){
             this.x +=x.x;
             this.y += x.y;
             this.z += x.z;
             return;
         }
+
+        
         this.x +=x;
         this.y += y;
         this.z += z;

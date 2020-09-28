@@ -6,7 +6,8 @@ export class Scene{
     constructor(){
         const id = 3;
 
-        this.transform = new Transform(3,3,3);
+        this.transform = new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(1,1,1));
+        // this.transform.position = new Vector3(50,50,50);
         // let component = new Component();
         // this.position = new Vector3(); 
         

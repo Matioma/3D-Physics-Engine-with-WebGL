@@ -6,6 +6,8 @@ export default class Component{
         }
         this.Start();
     }
+
+    //
     Start(){};
     Update(){};
 }
