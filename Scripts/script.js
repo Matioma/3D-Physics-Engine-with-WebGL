@@ -1,14 +1,14 @@
-import {Renderer} from "./Renderer.js";
+// import Renderer from "./Renderer.js";
 import {fsSource} from "./Shaders/fragmentShader.js";
 import {vsSource} from "./Shaders/vertexShader.js" 
 
 import {Scene} from "./scene.js";
 
 
-window.onload = main;
 
 
-let testRenderer;
+
+// let testRenderer;
 
 
 let cubeRotation = 1.0;
@@ -17,7 +17,7 @@ let cubeRotation = 1.0;
 
 
 let currentScene;
-Setup();
+ Setup();
 function Setup(){
     currentScene = new Scene();
 }
@@ -28,56 +28,55 @@ function Update(){
 }
 requestAnimationFrame(Update);
 
+// window.onload = Setup;
+
+// function main(){
+//     let canvas = document.getElementById("canvas");
+//     const gl = canvas.getContext("webgl");
+
+//     // testRenderer = new Renderer(gl);
+
+//     if(gl === null){
+//         alert("The browser does not support WebGL")
+//         return;
+//     }
+//     const shaderProgram =initShaderProgram(gl,vsSource,fsSource);
 
 
+//     const programInfo ={
+//         program: shaderProgram,
+//         attribLocations: {
+//             vertextPosition: gl.getAttribLocation(shaderProgram,"aVertexPosition"),
+//             vertextColor: gl.getAttribLocation(shaderProgram,"aVertexColor"),
+//             vertexNormals: gl.getAttribLocation(shaderProgram,"aVertexNormal")
+//         },
+//         uniformLocations:{
+//             projectionMatrix: gl.getUniformLocation(shaderProgram,"uProjectionMatrix"),
+//             uModelViewMatrix: gl.getUniformLocation(shaderProgram,"uModelViewMatrix"),
+//             uNormalMatrix: gl.getUniformLocation(shaderProgram,"uNormalMatrix")
+//         },
+//     };
 
-function main(){
-    let canvas = document.getElementById("canvas");
-    const gl = canvas.getContext("webgl");
-
-    testRenderer = new Renderer(gl);
-
-    if(gl === null){
-        alert("The browser does not support WebGL")
-        return;
-    }
-    const shaderProgram =initShaderProgram(gl,vsSource,fsSource);
-
-
-    const programInfo ={
-        program: shaderProgram,
-        attribLocations: {
-            vertextPosition: gl.getAttribLocation(shaderProgram,"aVertexPosition"),
-            vertextColor: gl.getAttribLocation(shaderProgram,"aVertexColor"),
-            vertexNormals: gl.getAttribLocation(shaderProgram,"aVertexNormal")
-        },
-        uniformLocations:{
-            projectionMatrix: gl.getUniformLocation(shaderProgram,"uProjectionMatrix"),
-            uModelViewMatrix: gl.getUniformLocation(shaderProgram,"uModelViewMatrix"),
-            uNormalMatrix: gl.getUniformLocation(shaderProgram,"uNormalMatrix")
-        },
-    };
-
-    const buffers =  initBuffers(gl);
-    drawScene(gl,programInfo, buffers);
+//     const buffers =  initBuffers(gl);
+//     drawScene(gl,programInfo, buffers);
 
     
-    let then =0.0;
+//     let then =0.0;
 
-    function render(now){
-        now *= 0.001;
-        const deltaTime = now -then;
-        cubeRotation+=deltaTime;
-        then = now;
+//     function render(now){
+//         now *= 0.001;
+//         const deltaTime = now -then;
+//         cubeRotation+=deltaTime;
+//         then = now;
 
-        drawScene(gl,programInfo,buffers,deltaTime);
+//         drawScene(gl,programInfo,buffers,deltaTime);
 
-        requestAnimationFrame(render);
-    }
-    requestAnimationFrame(render);
+//         requestAnimationFrame(render);
+//     }
+//     requestAnimationFrame(render);
 
 
-}
+// }
 
 
 /*
