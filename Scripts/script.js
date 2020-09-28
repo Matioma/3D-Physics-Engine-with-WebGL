@@ -1,4 +1,4 @@
-import {Renderer} from "./renderer.js";
+import {Renderer} from "./Renderer.js";
 import {fsSource} from "./Shaders/fragmentShader.js";
 import {vsSource} from "./Shaders/vertexShader.js" 
 

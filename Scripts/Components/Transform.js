@@ -48,8 +48,8 @@ export default class Transform extends Component{
         // console.log("Transform Start Methods");
     }
     
-    Update(){
-        // console.log("Transform Update Methods");
+    Step(){
+         console.log("Transform Step Method");
     }
 
 }
