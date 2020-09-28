@@ -6,5 +6,11 @@ export  class Renderer{
         const _glContext = context;
         console.log("Renderer created");
     };
+
+    
+
+
+
+
 }
 

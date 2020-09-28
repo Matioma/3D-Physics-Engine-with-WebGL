@@ -7,11 +7,9 @@ import Transform from "./Components/Transform.js";
 
 export class Scene{
     constructor(){
-        const id = 3;
-
-        this.GameObject = new GameObject();
-
-        // console.log(this.GameObject.GetComponent("transform"));
+        this._SceneObject = [];
+        this._SceneObject.push(new GameObject());
+        
     }
 
     Update(){
@@ -20,7 +18,9 @@ export class Scene{
     }
 
     Step(){
-        this.GameObject.Step();
+        this._SceneObject.forEach(element => {
+            element.Step();
+        });
     }
 
     draw(){
