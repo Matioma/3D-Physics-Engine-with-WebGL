@@ -2,7 +2,7 @@
 export class Shape {
     constructor(){
         this.VertexPositions=[];
-        this.FaceColors = [];
+        this._FaceColors = [];
         this.Indices = [];
         this.VertexNormals = [];
     }
@@ -43,15 +43,15 @@ export class Cube extends Shape{
             -1.0,  1.0,  1.0,
             -1.0,  1.0, -1.0,
         ];
-        this.FaceColors =[ 
+        this._FaceColors =[ 
             [1.0,1.0,1.0,1.0],
             [1.0,1.0,1.0,1.0],
             [1.0,1.0,1.0,1.0],
             [1.0,1.0,1.0,1.0],
-            [1.0,1.0,1.0,1.0],
-            [1.0,1.0,1.0,1.0],
-            [1.0,1.0,1.0,1.0],
-            [1.0,1.0,1.0,1.0],
+            [1.0,0.0,0.0,1.0],
+            [1.0,0.0,0.0,1.0],
+            [1.0,0.0,0.0,1.0],
+            [1.0,0.0,0.0,1.0],
             [1.0,1.0,1.0,1.0],
             [1.0,1.0,1.0,1.0],
             [1.0,1.0,1.0,1.0],
@@ -114,6 +114,19 @@ export class Cube extends Shape{
             -1.0,  0.0,  0.0,
             -1.0,  0.0,  0.0
         ];
+    }
+
+    get FaceColors(){
+
+        //COncatinate array of arrays to get one single array of values required by the GPU
+        let colors =[];
+        for (let i=0; i< this._FaceColors.length; i++){
+            let c =this._FaceColors[i];
+            colors =colors.concat(c);
+        }
+        return colors;
+
+
     }
 }
 

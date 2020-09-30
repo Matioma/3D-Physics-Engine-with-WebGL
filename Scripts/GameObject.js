@@ -39,7 +39,7 @@ export default class GameObject {
 
     //Updates all the components
     Step(){
-        this.transform.rotate(1,1,2);
+        // this.transform.rotate(1,1,2);
         // this.transform.position.add(new Vector3(0,0.01,0));
         const components = Object.keys(this._components);
         components.forEach(element => {

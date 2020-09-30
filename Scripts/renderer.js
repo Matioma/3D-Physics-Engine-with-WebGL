@@ -31,8 +31,8 @@ export default class Renderer{
                 uNormalMatrix: this.gl.getUniformLocation(this.shaderProgram,"uNormalMatrix")
             },
         }
-        const buffers =this.initBuffers(this.gl);
-        this.drawScene(this.gl,this.programInfo,buffers);
+        // const buffers =this.initBuffers(this.gl);
+        // this.drawScene(this.gl,this.programInfo,buffers);
     }
     draw(scene){
         this.gl.clearColor(0.0,0.0,0.0,1.0);
@@ -49,6 +49,7 @@ export default class Renderer{
         for(let i=0; i<scene.SceneObjects.length;i++){
             const transform = scene.SceneObjects[i].transform;
             const buffers = this.bufferData(scene.SceneObjects[i].GetComponent("meshData"));
+
             this.drawMesh(this.gl,this.programInfo,buffers,transform);
         }
     }
@@ -64,24 +65,23 @@ export default class Renderer{
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER,colorBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(meshData._shape.FaceColors),this.gl.STATIC_DRAW);
 
-        const indexBuffer = this.gl.createBuffer();
-        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER,indexBuffer);
-        this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(meshData._shape.Indices), this.gl.STATIC_DRAW);
-
         const normalBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER,normalBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(meshData._shape.VertexNormals),this.gl.STATIC_DRAW);
     
+        const indexBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER,indexBuffer);
+        this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(meshData._shape.Indices), this.gl.STATIC_DRAW);
+
+       
         return{
             position:positionBuffer,
             normal:normalBuffer,
             color:colorBuffer,
             indices: indexBuffer,
         };
-    
+        
     }
-
-    
     
     drawMesh(gl,programInfo,buffers, transform){
          //Projection matrix parameters
@@ -277,11 +277,11 @@ export default class Renderer{
         
         const faceColors = [
             [1.0,1.0,1.0,1.0],
-            [1.0,1.0,1.0,1.0],
-            [1.0,1.0,1.0,1.0],
-            [1.0,1.0,1.0,1.0],
-            [1.0,1.0,1.0,1.0],
-            [1.0,1.0,1.0,1.0]
+            [1.0,0.0,1.0,1.0],
+            [1.0,0.0,1.0,1.0],
+            [1.0,0.0,1.0,1.0],
+            [1.0,0.0,1.0,1.0],
+            [1.0,0.0,1.0,1.0]
         ]
     
         var colors = [];
@@ -291,6 +291,8 @@ export default class Renderer{
     
             // Repeat each color four times for the four vertices of the face
             colors = colors.concat(c, c, c, c);
+
+            
         }
         
         const colorBuffer =gl.createBuffer();
