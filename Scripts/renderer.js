@@ -79,6 +79,8 @@ export default class Renderer{
             normal:normalBuffer,
             color:colorBuffer,
             indices: indexBuffer,
+
+            lengthOfIndices: meshData._shape.Indices.length
         };
         
     }
@@ -106,7 +108,8 @@ export default class Renderer{
          mat4.scale(
             modelMatrix,
             modelMatrix,
-            transform.scale.toArray());
+            // transform._scale.toArray());
+            transform._scale.toArray());
 
          mat4.translate(
              modelMatrix,
@@ -222,7 +225,8 @@ export default class Renderer{
              normalMatrix
          );  
          {
-             const vertexCount = 36;
+            // buffers.
+             const vertexCount = buffers.lengthOfIndices;
              const type = gl.UNSIGNED_SHORT;
              const offset =0;
              gl.drawElements(gl.TRIANGLES,vertexCount,type,offset);

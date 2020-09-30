@@ -30,6 +30,8 @@ export default class Scene{
     BuildScene(){
         let newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+
+        console.log(newGameObject);
         newGameObject.transform.position = new Vector3(-0.0,0.0, -5);
         this.AddObject(this._SceneObject,newGameObject);
 

@@ -28,7 +28,7 @@ export default class Transform extends Component{
     get scale(){
         return this._scale;
     }
-    get rotation(newScale){
+    set scale(newScale){
         this._scale.set(newScale);
     }
 
