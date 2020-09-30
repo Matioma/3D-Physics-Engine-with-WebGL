@@ -2,7 +2,7 @@
 import {fsSource} from "./Shaders/fragmentShader.js";
 import {vsSource} from "./Shaders/vertexShader.js" 
 
-import {Scene} from "./scene.js";
+import Scene from "./scene.js";
 
 
 

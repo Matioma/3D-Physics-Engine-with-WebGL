@@ -8,7 +8,7 @@ export default class MeshData extends Component{
         if(!(MeshShape instanceof Shapes.Shape)){
             console.error("Make sure you send as a parameter an object of type Shape");
         }
-        this.Shape = MeshShape;
+        this._shape = MeshShape;
     }
 
 

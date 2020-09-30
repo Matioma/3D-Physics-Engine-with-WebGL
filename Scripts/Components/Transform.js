@@ -17,6 +17,13 @@ export default class Transform extends Component{
         this._position.set(newPosition);
     }
 
+    get rotation(){
+        return this._rotation;
+    }
+    set rotation(newRotation){
+        this._rotation.set(newRotation);
+    }
+
     //Rotates the object
     rotate(x,y,z){
         //If only one parameter is sent

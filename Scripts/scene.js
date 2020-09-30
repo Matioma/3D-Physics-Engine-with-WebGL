@@ -8,16 +8,19 @@ import Renderer from "./Renderer.js";
 import MeshData from "./Components/MeshData.js";
 import * as Shapes from "./ShapesData/Shape.js";
 
-export class Scene{
+export default class Scene{
     constructor(){
         this._SceneObject = [];
         
         this.BuildScene();
 
-        
-
+        console.log(this._SceneObject);
         this._Renderer = new Renderer(); 
     }
+    get SceneObjects(){
+        return this._SceneObject;
+    }
+
 
     AddObject(collection, newObject){
         collection.push(newObject);
@@ -27,9 +30,13 @@ export class Scene{
     BuildScene(){
         let newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+        newGameObject.transform.position = new Vector3(-0.0,0.0, -5);
+        this.AddObject(this._SceneObject,newGameObject);
 
-        newGameObject.transform.position = new Vector3(10,10,10);
-        console.log(newGameObject);
+
+        newGameObject =new GameObject();
+        newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+        newGameObject.transform.position = new Vector3(-2.0,2.0, -5);
         this.AddObject(this._SceneObject,newGameObject);
     }
 
@@ -45,7 +52,7 @@ export class Scene{
     }
 
     draw(){
-
+        this._Renderer.draw(this);
     }
 
 }

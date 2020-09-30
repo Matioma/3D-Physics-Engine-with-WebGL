@@ -1,6 +1,8 @@
 import {fsSource} from "./Shaders/fragmentShader.js";
 import {vsSource} from "./Shaders/vertexShader.js" 
 
+import Scene from "./scene.js";
+
 export default class Renderer{
     constructor(){
         console.log("Renderer created");
@@ -14,23 +16,221 @@ export default class Renderer{
         if(this.gl ==null){
             console.error("The browser does not support WebGL");
         }
-        const shaderProgram = this.InitShaderProgram(this.gl,vsSource,fsSource);
+        this.shaderProgram = this.InitShaderProgram(this.gl,vsSource,fsSource);
 
-        const programInfo ={
-            program: shaderProgram,
+        this.programInfo ={
+            program: this.shaderProgram,
             attribLocations: {
-                vertextPosition: this.gl.getAttribLocation(shaderProgram,"aVertexPosition"),
-                vertextColor: this.gl.getAttribLocation(shaderProgram,"aVertexColor"),
-                vertexNormals: this.gl.getAttribLocation(shaderProgram,"aVertexNormal")
+                vertextPosition: this.gl.getAttribLocation(this.shaderProgram,"aVertexPosition"),
+                vertextColor: this.gl.getAttribLocation(this.shaderProgram,"aVertexColor"),
+                vertexNormals: this.gl.getAttribLocation(this.shaderProgram,"aVertexNormal")
             },
             uniformLocations:{
-                projectionMatrix: this.gl.getUniformLocation(shaderProgram,"uProjectionMatrix"),
-                uModelViewMatrix: this.gl.getUniformLocation(shaderProgram,"uModelViewMatrix"),
-                uNormalMatrix: this.gl.getUniformLocation(shaderProgram,"uNormalMatrix")
+                projectionMatrix: this.gl.getUniformLocation(this.shaderProgram,"uProjectionMatrix"),
+                uModelViewMatrix: this.gl.getUniformLocation(this.shaderProgram,"uModelViewMatrix"),
+                uNormalMatrix: this.gl.getUniformLocation(this.shaderProgram,"uNormalMatrix")
             },
         }
         const buffers =this.initBuffers(this.gl);
-        this.drawScene(this.gl,programInfo,buffers);
+        this.drawScene(this.gl,this.programInfo,buffers);
+    }
+    draw(scene){
+        this.gl.clearColor(0.0,0.0,0.0,1.0);
+        this.gl.clearDepth(1.0);
+        this.gl.enable(this.gl.DEPTH_TEST);
+        this.gl.depthFunc(this.gl.LEQUAL);
+    
+        
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+        if(!(scene instanceof Scene)){
+            console.error("Make sure the poarameter is a instance of  Scene");
+        }
+        for(let i=0; i<scene.SceneObjects.length;i++){
+            const transform = scene.SceneObjects[i].transform;
+            const buffers = this.bufferData(scene.SceneObjects[i].GetComponent("meshData"));
+            this.drawMesh(this.gl,this.programInfo,buffers,transform);
+        }
+    }
+
+    bufferData(meshData){
+        if(meshData == undefined) return;
+
+        const positionBuffer = this.gl.createBuffer();  
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array( meshData._shape.VertexPositions), this.gl.STATIC_DRAW); 
+
+        const colorBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER,colorBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(meshData._shape.FaceColors),this.gl.STATIC_DRAW);
+
+        const indexBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER,indexBuffer);
+        this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(meshData._shape.Indices), this.gl.STATIC_DRAW);
+
+        const normalBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER,normalBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(meshData._shape.VertexNormals),this.gl.STATIC_DRAW);
+    
+        return{
+            position:positionBuffer,
+            normal:normalBuffer,
+            color:colorBuffer,
+            indices: indexBuffer,
+        };
+    
+    }
+
+    
+    
+    drawMesh(gl,programInfo,buffers, transform){
+         //Projection matrix parameters
+         const fieldOfView = 45 *Math.PI/180; 
+         const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+         const zNear =0.1;
+         const zFar = 100;
+     
+         //Create projection matrix
+         const projectionMatrix = mat4.create();
+         mat4.perspective(projectionMatrix,
+             fieldOfView,
+             aspect,
+             zNear,
+             zFar);
+     
+
+         //Create model matrix
+         const modelMatrix = mat4.create();
+
+         console.log();
+         mat4.translate(
+             modelMatrix,
+             modelMatrix,
+             transform.position.toArray());
+     
+         mat4.rotate(
+             modelMatrix,
+             modelMatrix,
+             1/365 * transform._rotation.z, //amount to rotate in radians
+             [0,0,1]); // rotate around which axis
+
+        mat4.rotate(
+            modelMatrix,
+            modelMatrix,
+            1/365 * transform._rotation.y, //amount to rotate in radians
+            [0,1,0]); // rotate around which axis
+        
+        mat4.rotate(
+            modelMatrix,
+            modelMatrix,
+            1/365 * transform._rotation.x, //amount to rotate in radians
+            [1,0,0]); // rotate around which axis
+        
+         //Set up postion trasnsfer
+         {
+             const numComponents =3;
+             const type =gl.FLOAT;
+             const normalize = false;
+             const stride = 0;
+             const offset = 0;
+     
+             gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+             gl.vertexAttribPointer(
+                 programInfo.attribLocations.vertextPosition,
+                 numComponents,
+                 type,
+                 normalize,
+                 stride,
+                 offset
+             );
+     
+             gl.enableVertexAttribArray(
+                 programInfo.attribLocations.vertextPosition
+             );
+         }    
+     
+       
+     
+         //tell vertex shader how to pull color from colors buffer 
+         {
+             const numberComponents = 4; // how many values per variable,
+             const type = gl.FLOAT; //Type of the values sent
+             const normalize =false; //Do not normalize the vector,
+             const stride =0;
+             const offset =0;
+     
+             gl.bindBuffer(gl.ARRAY_BUFFER,buffers.color); //add a buffer  of a type Array Buffer
+             gl.vertexAttribPointer(
+                 programInfo.attribLocations.vertextColor, //id of the attibute in the gpu
+                 numberComponents, //number of components per attribute
+                 type, // type of each component per attribute
+                 normalize,
+                 stride,
+                 offset
+             )
+             gl.enableVertexAttribArray(
+                 programInfo.attribLocations.vertextColor
+             );
+         }
+         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,buffers.indices);
+     
+     
+         {
+             const numberComponents =3;
+             const type = gl.FLOAT;
+             const normalize = false;
+             const stride =0;
+             const offset =0;
+     
+             gl.bindBuffer(gl.ARRAY_BUFFER,buffers.normal);
+             gl.vertexAttribPointer(
+                 programInfo.attribLocations.vertexNormals,
+                 numberComponents,
+                 type,
+                 normalize,
+                 stride,
+                 offset)
+             gl.enableVertexAttribArray(programInfo.attribLocations.vertexNormals);
+         }
+     
+         gl.useProgram(programInfo.program);
+     
+         //Set a projectionMatrix
+         gl.uniformMatrix4fv(
+             programInfo.uniformLocations.projectionMatrix,
+             false,
+             projectionMatrix);
+         
+         // set model matrix
+         gl.uniformMatrix4fv(
+             programInfo.uniformLocations.uModelViewMatrix,
+             false,
+             modelMatrix);
+     
+     
+         const normalMatrix =mat4.create();
+         mat4.invert(normalMatrix,modelMatrix);
+         mat4.transpose(normalMatrix,normalMatrix);
+         
+         //set noraml Matrix
+         gl.uniformMatrix4fv(
+             programInfo.uniformLocations.uNormalMatrix,
+             false,
+             normalMatrix
+         );  
+     
+         {
+             const vertexCount = 36;
+             const type = gl.UNSIGNED_SHORT;
+             const offset =0;
+             gl.drawElements(gl.TRIANGLES,vertexCount,type,offset);
+     
+             // const offset =0;
+             // const vertexCount =4;
+             // gl.drawArrays(gl.TRIANGLE_STRIP,offset,vertexCount); 
+         }
+
+
     }
 
     initBuffers(gl){
@@ -164,7 +364,6 @@ export default class Renderer{
             indices: indexBuffer,
         };
     }
-    
 
     drawScene(gl,programInfo,buffers){
         gl.clearColor(0.0,0.0,0.0,1.0);

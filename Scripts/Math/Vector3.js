@@ -4,6 +4,11 @@ export default class Vector3{
         this.y = y;
         this.z = z;
     }
+
+    toArray(){
+        return[ this.x, this.y, this.z];
+    }
+
     set(x, y,z){
         if((x instanceof Vector3) && (y == undefined || z==undefined )){
             this.x =x.x;
