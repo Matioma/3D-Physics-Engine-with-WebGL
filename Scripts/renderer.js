@@ -97,12 +97,17 @@ export default class Renderer{
              aspect,
              zNear,
              zFar);
-     
 
          //Create model matrix
          const modelMatrix = mat4.create();
 
          console.log();
+
+         mat4.scale(
+            modelMatrix,
+            modelMatrix,
+            transform.scale.toArray());
+
          mat4.translate(
              modelMatrix,
              modelMatrix,
@@ -174,7 +179,6 @@ export default class Renderer{
          }
          gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,buffers.indices);
      
-     
          {
              const numberComponents =3;
              const type = gl.FLOAT;
@@ -207,7 +211,6 @@ export default class Renderer{
              false,
              modelMatrix);
      
-     
          const normalMatrix =mat4.create();
          mat4.invert(normalMatrix,modelMatrix);
          mat4.transpose(normalMatrix,normalMatrix);
@@ -218,19 +221,12 @@ export default class Renderer{
              false,
              normalMatrix
          );  
-     
          {
              const vertexCount = 36;
              const type = gl.UNSIGNED_SHORT;
              const offset =0;
              gl.drawElements(gl.TRIANGLES,vertexCount,type,offset);
-     
-             // const offset =0;
-             // const vertexCount =4;
-             // gl.drawArrays(gl.TRIANGLE_STRIP,offset,vertexCount); 
          }
-
-
     }
 
     initBuffers(gl){
