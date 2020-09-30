@@ -1,14 +1,16 @@
 import Component from "./Component.js";
+import * as Shapes from "../ShapesData/Shape.js";
 
 export default class MeshData extends Component{
-    constructor(vertexPositions,faceColors,indices,vertexNormals){
+    constructor(MeshShape){
         super();
 
-        const VertexPositions=vertexPositions;
-        const FaceColors = faceColors;
-        const Indices = indices;
-        const VertexNormals = vertexNormals;
+        if(!(MeshShape instanceof Shapes.Shape)){
+            console.error("Make sure you send as a parameter an object of type Shape");
+        }
+        this.Shape = MeshShape;
     }
+
 
     Step(){
         // console.log("MeshData step");

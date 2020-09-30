@@ -1,14 +1,18 @@
 import Vector3 from "./Math/Vector3.js";
 import Transform from "./Components/Transform.js";
 import Component from "./Components/Component.js";
-import MeshData from "./Components/MeshData.js";
+// import MeshData from "./Components/MeshData.js";
 
 export default class GameObject {
     constructor(){
         this._components ={};
-        this.AddComponent("transform", new Transform());
-        this.AddComponent("meshData", new MeshData());
+        this._transform = this.AddComponent("transform",new Transform()); 
+      
     }
+    get transform(){
+        return this._transform;
+    }
+
 
     //Adds a component to the gameObject
     AddComponent(TypeName, component){
@@ -18,6 +22,7 @@ export default class GameObject {
         }else{
             console.error("Tried to add A non component as a component");
         }
+        return component;
     }
     //Removes a specific component
     RemoveComponent(TypeName){
