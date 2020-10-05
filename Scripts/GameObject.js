@@ -32,13 +32,15 @@ export default class GameObject {
     GetComponent(TypeName){
         let component = this._components[TypeName];
         if(component == undefined){
-            console.error("Could not find the Requrested Component");
+            console.error(`Could not find the Requrested Component of ${TypeName}`);
         }
         return component;
     }
 
     //Updates all the components
     Step(){
+        this.transform.rotate(10,0,0);
+
         const components = Object.keys(this._components);
         components.forEach(element => {
             this._components[element].Step();

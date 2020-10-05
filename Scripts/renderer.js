@@ -2,11 +2,17 @@ import {fsSource} from "./Shaders/fragmentShader.js";
 import {vsSource} from "./Shaders/vertexShader.js" 
 
 import Scene from "./scene.js";
+import Camera from "./Camera.js";
 
 export default class Renderer{
-    constructor(){
+    constructor(camera){
         console.log("Renderer created");
         this.Initialize();
+
+        if(camera instanceof Camera){
+            console.log("Camera attached to renderer");
+            this.camera =camera;
+        }
     };
 
     Initialize(){
@@ -48,8 +54,9 @@ export default class Renderer{
         }
         for(let i=0; i<scene.SceneObjects.length;i++){
             const transform = scene.SceneObjects[i].transform;
+            
             const buffers = this.bufferData(scene.SceneObjects[i].GetComponent("meshData"));
-
+            
             this.drawMesh(this.gl,this.programInfo,buffers,transform);
         }
     }
@@ -85,55 +92,92 @@ export default class Renderer{
         
     }
     
+    computeCameraMatrix(camera){
+        if(!camera instanceof Camera) return;
+
+        
+    }
+
+
     drawMesh(gl,programInfo,buffers, transform){
          //Projection matrix parameters
-         const fieldOfView = 45 *Math.PI/180; 
-         const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-         const zNear =0.1;
-         const zFar = 100;
-     
-         //Create projection matrix
-         const projectionMatrix = mat4.create();
-         mat4.perspective(projectionMatrix,
-             fieldOfView,
-             aspect,
-             zNear,
-             zFar);
+        const fieldOfView = 45 *Math.PI/180; 
+        const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+        const zNear =0.1;
+        const zFar = 100;
+    
+        //Create projection matrix
+        const projectionMatrix = mat4.create();
+        mat4.perspective(projectionMatrix,
+            fieldOfView,
+            aspect,
+            zNear,
+            zFar);
+
+        
+        
+        
+
 
          //Create model matrix
-         const modelMatrix = mat4.create();
-
-         console.log();
-
-         mat4.scale(
+        const modelMatrix = mat4.create();
+        mat4.scale(
+        modelMatrix,
+        modelMatrix,
+        // transform._scale.toArray());
+        transform._scale.toArray());
+        mat4.translate(
             modelMatrix,
             modelMatrix,
-            // transform._scale.toArray());
-            transform._scale.toArray());
-
-         mat4.translate(
-             modelMatrix,
-             modelMatrix,
-             transform.position.toArray());
-     
-         mat4.rotate(
+            transform.position.toArray());
+        mat4.rotate(
              modelMatrix,
              modelMatrix,
              1/365 * transform._rotation.z, //amount to rotate in radians
              [0,0,1]); // rotate around which axis
-
         mat4.rotate(
             modelMatrix,
             modelMatrix,
             1/365 * transform._rotation.y, //amount to rotate in radians
             [0,1,0]); // rotate around which axis
-        
         mat4.rotate(
             modelMatrix,
             modelMatrix,
             1/365 * transform._rotation.x, //amount to rotate in radians
             [1,0,0]); // rotate around which axis
         
+
+
+        if(this.camera != undefined){
+            
+            // const CameraMatrix =mat4.create();
+            // mat4.translate(
+            //     CameraMatrix,
+            //     CameraMatrix,
+            //     this.camera.transform.position.toArray());
+            // mat4.rotate(
+            //     CameraMatrix,
+            //     CameraMatrix,
+            //     1/365 * this.camera.transform._rotation.z, //amount to rotate in radians
+            //     [0,0,1]); // rotate around which axis
+            // mat4.rotate(
+            //     CameraMatrix,
+            //     CameraMatrix,
+            //    1/365 * this.camera.transform._rotation.y, //amount to rotate in radians
+            //    [0,1,0]); // rotate around which axis
+            // mat4.rotate(
+            //     CameraMatrix,
+            //     CameraMatrix,
+            //     1/365 * this.camera.transform._rotation.x, //amount to rotate in radians
+            //     [1,0,0]); // rotate around which axis
+            // mat4.invert(CameraMatrix,CameraMatrix);
+
+            // mat4.multiply(projectionMatrix,CameraMatrix,modelMatrix);
+        }
+    
+
+
+
          //Set up postion trasnsfer
          {
              const numComponents =3;

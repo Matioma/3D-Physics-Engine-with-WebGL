@@ -7,6 +7,7 @@ import Renderer from "./Renderer.js";
 
 import MeshData from "./Components/MeshData.js";
 import * as Shapes from "./ShapesData/Shape.js";
+import Camera from "./Camera.js";
 
 export default class Scene{
     constructor(){
@@ -14,8 +15,9 @@ export default class Scene{
         
         this.BuildScene();
 
-        console.log(this._SceneObject);
-        this._Renderer = new Renderer(); 
+
+        this._Camera = new Camera();
+        this._Renderer = new Renderer(this._Camera); 
     }
     get SceneObjects(){
         return this._SceneObject;
@@ -24,20 +26,18 @@ export default class Scene{
 
     AddObject(collection, newObject){
         collection.push(newObject);
-
     }
 
     BuildScene(){
         let newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
 
-        console.log(newGameObject);
+        // console.log(newGameObject);
         newGameObject.transform.position = new Vector3(-0.0,0.0, -5);
         this.AddObject(this._SceneObject,newGameObject);
 
-
         newGameObject =new GameObject();
-        newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+        newGameObject.AddComponent("meshData",new MeshData(new Shapes.Plane()));
         newGameObject.transform.position = new Vector3(-2.0,2.0, -5);
         this.AddObject(this._SceneObject,newGameObject);
     }
@@ -48,6 +48,8 @@ export default class Scene{
     }
 
     Step(){
+        // this.Camera.Step();
+        this._Camera.Step();
         this._SceneObject.forEach(element => {
             element.Step();
         });
@@ -56,5 +58,4 @@ export default class Scene{
     draw(){
         this._Renderer.draw(this);
     }
-
 }
