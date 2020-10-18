@@ -5,7 +5,6 @@ export default class Component{
             return;
         }
         this.owner = undefined;
-
         this.Start();
     }
 

@@ -5,14 +5,9 @@ import {vsSource} from "./Shaders/vertexShader.js"
 import Scene from "./scene.js";
 
 import Input from "./Input.js";
+import Time from "./Time.js";
 
 let currentScene;
-
-Input.Key = 3;
-console.log(Input.Key);
-
-
-
 
 Setup();
 function Setup(){
@@ -20,19 +15,18 @@ function Setup(){
 }
 function Update(){
     currentScene.Update();
-    requestAnimationFrame(Update);
     Input.key = undefined;
+    Time.UpdateDeltaTime();
+    
+    requestAnimationFrame(Update);
 }
 requestAnimationFrame(Update);
-
 
 // Pull input Events
 window.addEventListener("keydown", function (event) {
     if (event.defaultPrevented) {
       return; // Do nothing if the event was already processed
     }
-
-  
     switch (event.key) {
         case "ArrowDown":
             Input.Key = Input.KeyKode.KeyDown;
@@ -73,5 +67,4 @@ window.addEventListener("keydown", function (event) {
       default:
         return;
     }
-    // event.preventDefault();
 }, true);

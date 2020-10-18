@@ -8,6 +8,7 @@ import Renderer from "./Renderer.js";
 import MeshData from "./Components/MeshData.js";
 import * as Shapes from "./ShapesData/Shape.js";
 import Camera from "./Camera.js";
+import RigidBody from "./Components/RigidBody.js";
 
 export default class Scene{
     constructor(){
@@ -30,7 +31,7 @@ export default class Scene{
     BuildScene(){
         let newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
-
+        newGameObject.AddComponent("RigidBody", new RigidBody());
         // console.log(newGameObject);
         newGameObject.transform.position = new Vector3(-0.0,0.0, -5);
         this.AddObject(this._SceneObject,newGameObject);
