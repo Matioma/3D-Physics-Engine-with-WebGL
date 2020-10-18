@@ -173,9 +173,6 @@ export class Sphere extends Shape{
     constructor(){
         super();
         this.VertexPositions= [
-
-
-
             // Front face
             -1.0, -1.0,  1.0,
             1.0, -1.0,  1.0,

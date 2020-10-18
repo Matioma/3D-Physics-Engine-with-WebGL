@@ -3,6 +3,7 @@ import {vsSource} from "./Shaders/vertexShader.js"
 
 import Scene from "./scene.js";
 import Camera from "./Camera.js";
+import Vector3 from "./Math/Vector3.js";
 
 export default class Renderer{
     constructor(camera){
@@ -116,9 +117,6 @@ export default class Renderer{
 
         
         
-        
-
-
          //Create model matrix
         const modelMatrix = mat4.create();
         mat4.scale(
@@ -146,10 +144,37 @@ export default class Renderer{
             1/365 * transform._rotation.x, //amount to rotate in radians
             [1,0,0]); // rotate around which axis
         
-
-
-        if(this.camera != undefined){
+        
+        
+        
+        const mvMatrix =mat4.create();   
             
+        console.log(this.camera);
+        if(this.camera != undefined){
+            console.log("there is camera");
+            var vec3 =this.camera.transform.position;
+
+            console.log(vec3);
+            vec3.multiply(-1)
+            console.log();
+            console.log(vec3);
+            mat4.translate(modelMatrix,modelMatrix,vec3.toArray())
+            
+            // const viewMatrix = mat4.create();
+
+
+            // mat4.translate(viewMatrix, viewMatrix, [-5,0,1]);   
+
+
+            // var vector = this.camera.transform.position;
+           
+            // var vector1 = new Vector3(-vector.x, -vector.y,-vector.z);
+            // console.log(    `${vector} : ${vector1}` );
+
+                // mat4.translate(
+                //     modelMatrix,
+                //     modelMatrix,
+                //     vector1.toArray());
             // const CameraMatrix =mat4.create();
             // mat4.translate(
             //     CameraMatrix,

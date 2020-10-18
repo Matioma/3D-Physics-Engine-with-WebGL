@@ -17,6 +17,7 @@ export default class Scene{
 
 
         this._Camera = new Camera();
+        this._Camera.transform.position = new Vector3(0,0,0);
         this._Renderer = new Renderer(this._Camera); 
     }
     get SceneObjects(){
