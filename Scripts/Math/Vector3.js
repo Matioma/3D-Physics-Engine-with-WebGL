@@ -44,6 +44,12 @@ export default class Vector3{
         this.z *= value;
     }
 
+    multiplyBy(value){
+        let vector = this.copyVector();
+        vector.multiply(value);
+        return vector;
+    }
+
     sqrLength(){
         return this.x*this.x + this.y*this.y + this.z*this.z;
     }
@@ -54,13 +60,13 @@ export default class Vector3{
         this.multiply(1/length());
     }
     normalized(){
-        newVector = new Vector3(this.x, this.y, this.z);
+        let newVector = new Vector3(this.x, this.y, this.z);
         newVector.normalize();
         return newVector;
     }
 
     copyVector(){
-        newVector = new Vector3(this.x, this.y, this.z);
+        let newVector = new Vector3(this.x, this.y, this.z);
         return newVector;
     }
     toString(){
