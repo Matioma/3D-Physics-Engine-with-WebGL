@@ -8,8 +8,30 @@ export default class Camera extends GameObject{
     }
 
     Step(){
-        
-         this.transform.position.add(new Vector3(0,0,0.1));
+        if(Input.Key === Input.KeyKode.A){
+            this.transform.position.add(new Vector3(-0.1,0,0));
+        }
+        if(Input.Key === Input.KeyKode.D){
+            this.transform.position.add(new Vector3(0.1,0,0));
+        }
+        if(Input.Key === Input.KeyKode.W){
+            this.transform.position.add(new Vector3(0,0,-0.1));
+        }
+        if(Input.Key === Input.KeyKode.S){
+            this.transform.position.add(new Vector3(0,0,0.1));
+        }
+        if(Input.Key === Input.KeyKode.Shift){
+            this.transform.position.add(new Vector3(0,-0.1,0));
+        }
+        if(Input.Key === Input.KeyKode.Space){
+            this.transform.position.add(new Vector3(0,0.1,0));
+        }
+
+        // if(Input.Key === Input.KeyKode.KeyRight){
+        //     this.transform.position.add(new Vector3(0.1,0,0));
+        // }
+
+        //  this.transform.position.add(new Vector3(0,0,0.1));
 
 
         // this.transform.position.add(new Vector3(0,1,0));

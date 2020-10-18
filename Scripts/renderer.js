@@ -35,7 +35,8 @@ export default class Renderer{
             uniformLocations:{
                 projectionMatrix: this.gl.getUniformLocation(this.shaderProgram,"uProjectionMatrix"),
                 uModelViewMatrix: this.gl.getUniformLocation(this.shaderProgram,"uModelViewMatrix"),
-                uNormalMatrix: this.gl.getUniformLocation(this.shaderProgram,"uNormalMatrix")
+                uNormalMatrix: this.gl.getUniformLocation(this.shaderProgram,"uNormalMatrix"),
+                uViewProjectionMatrix:this.gl.getUniformLocation(this.shaderProgram, "uViewProjectionMatrix")
             },
         }
         // const buffers =this.initBuffers(this.gl);
@@ -146,58 +147,25 @@ export default class Renderer{
         
         
         
-        
-        const mvMatrix =mat4.create();   
-            
-        console.log(this.camera);
+        const viewProjectionMatrix = mat4.create();
         if(this.camera != undefined){
-            console.log("there is camera");
             var vec3 =this.camera.transform.position;
 
-            console.log(vec3);
-            vec3.multiply(-1)
-            console.log();
-            console.log(vec3);
-            mat4.translate(modelMatrix,modelMatrix,vec3.toArray())
-            
-            // const viewMatrix = mat4.create();
 
+            const CameraMatrix =mat4.create();
+            mat4.translate(
+                CameraMatrix,
+                CameraMatrix,
+                vec3.toArray()
+            )
 
-            // mat4.translate(viewMatrix, viewMatrix, [-5,0,1]);   
-
-
-            // var vector = this.camera.transform.position;
+            const viewMatrix = mat4.create();
+            mat4.invert(viewMatrix, CameraMatrix);
+            mat4.multiply(viewProjectionMatrix, projectionMatrix, viewMatrix);
            
-            // var vector1 = new Vector3(-vector.x, -vector.y,-vector.z);
-            // console.log(    `${vector} : ${vector1}` );
-
-                // mat4.translate(
-                //     modelMatrix,
-                //     modelMatrix,
-                //     vector1.toArray());
-            // const CameraMatrix =mat4.create();
-            // mat4.translate(
-            //     CameraMatrix,
-            //     CameraMatrix,
-            //     this.camera.transform.position.toArray());
-            // mat4.rotate(
-            //     CameraMatrix,
-            //     CameraMatrix,
-            //     1/365 * this.camera.transform._rotation.z, //amount to rotate in radians
-            //     [0,0,1]); // rotate around which axis
-            // mat4.rotate(
-            //     CameraMatrix,
-            //     CameraMatrix,
-            //    1/365 * this.camera.transform._rotation.y, //amount to rotate in radians
-            //    [0,1,0]); // rotate around which axis
-            // mat4.rotate(
-            //     CameraMatrix,
-            //     CameraMatrix,
-            //     1/365 * this.camera.transform._rotation.x, //amount to rotate in radians
-            //     [1,0,0]); // rotate around which axis
-            // mat4.invert(CameraMatrix,CameraMatrix);
-
-            // mat4.multiply(projectionMatrix,CameraMatrix,modelMatrix);
+            
+        }else{
+            mat4.copy(viewProjectionMatrix,projectionMatrix);
         }
     
 
@@ -249,8 +217,8 @@ export default class Renderer{
                  programInfo.attribLocations.vertextColor
              );
          }
+
          gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,buffers.indices);
-     
          {
              const numberComponents =3;
              const type = gl.FLOAT;
@@ -270,19 +238,25 @@ export default class Renderer{
          }
      
          gl.useProgram(programInfo.program);
-     
+
          //Set a projectionMatrix
          gl.uniformMatrix4fv(
              programInfo.uniformLocations.projectionMatrix,
              false,
              projectionMatrix);
-         
          // set model matrix
-         gl.uniformMatrix4fv(
-             programInfo.uniformLocations.uModelViewMatrix,
-             false,
-             modelMatrix);
+        gl.uniformMatrix4fv(
+            programInfo.uniformLocations.uModelViewMatrix,
+            false,
+            modelMatrix);
+        
+         //Set viewProjectionMatrix
+        gl.uniformMatrix4fv(
+            programInfo.uniformLocations.uViewProjectionMatrix,
+            false,
+            viewProjectionMatrix);
      
+
          const normalMatrix =mat4.create();
          mat4.invert(normalMatrix,modelMatrix);
          mat4.transpose(normalMatrix,normalMatrix);

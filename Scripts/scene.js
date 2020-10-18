@@ -15,7 +15,6 @@ export default class Scene{
         
         this.BuildScene();
 
-
         this._Camera = new Camera();
         this._Camera.transform.position = new Vector3(0,0,0);
         this._Renderer = new Renderer(this._Camera); 
@@ -23,7 +22,6 @@ export default class Scene{
     get SceneObjects(){
         return this._SceneObject;
     }
-
 
     AddObject(collection, newObject){
         collection.push(newObject);
@@ -36,6 +34,13 @@ export default class Scene{
         // console.log(newGameObject);
         newGameObject.transform.position = new Vector3(-0.0,0.0, -5);
         this.AddObject(this._SceneObject,newGameObject);
+
+        // newGameObject =new GameObject();
+        // newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+        // // console.log(newGameObject);
+        // newGameObject.transform.position = new Vector3(-0.0,4, -5);
+        // this.AddObject(this._SceneObject,newGameObject);
+
 
         newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Plane()));

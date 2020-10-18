@@ -5,13 +5,15 @@ export const vsSource =`
 
     uniform mat4 uModelViewMatrix;
     uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewProjectionMatrix;
     uniform mat4 uNormalMatrix;
 
     varying lowp vec4 vColor;
     varying highp vec3 vLighting;
 
     void main(){
-        gl_Position = uProjectionMatrix * uModelViewMatrix* aVertexPosition;
+        //gl_Position = uProjectionMatrix * uModelViewMatrix* aVertexPosition;
+        gl_Position = uViewProjectionMatrix*uModelViewMatrix* aVertexPosition;
         vColor = aVertexColor;
 
 
