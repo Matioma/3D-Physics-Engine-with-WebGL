@@ -64,6 +64,12 @@ window.addEventListener("keydown", function (event) {
         case " ":
             Input.Key = Input.KeyKode.Space;
             break;
+        case "q":
+            Input.Key = Input.KeyKode.Q;
+            break;
+        case "e":
+            Input.Key = Input.KeyKode.E;
+            break;
       default:
         return;
     }

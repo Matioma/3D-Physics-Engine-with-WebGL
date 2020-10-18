@@ -39,8 +39,6 @@ export default class GameObject {
 
     //Updates all the components
     Step(){
-         this.transform.rotate(10,0,0);
-
         const components = Object.keys(this._components);
         components.forEach(element => {
             this._components[element].Step();

@@ -132,17 +132,17 @@ export default class Renderer{
         mat4.rotate(
              modelMatrix,
              modelMatrix,
-             1/365 * transform._rotation.z, //amount to rotate in radians
+             1/180 * transform._rotation.z, //amount to rotate in radians
              [0,0,1]); // rotate around which axis
         mat4.rotate(
             modelMatrix,
             modelMatrix,
-            1/365 * transform._rotation.y, //amount to rotate in radians
+            1/180 * transform._rotation.y, //amount to rotate in radians
             [0,1,0]); // rotate around which axis
         mat4.rotate(
             modelMatrix,
             modelMatrix,
-            1/365 * transform._rotation.x, //amount to rotate in radians
+            1/180 * transform._rotation.x, //amount to rotate in radians
             [1,0,0]); // rotate around which axis
         
         
@@ -158,6 +158,23 @@ export default class Renderer{
                 CameraMatrix,
                 vec3.toArray()
             )
+            mat4.rotate(
+                modelMatrix,
+                modelMatrix,
+                1/180 * this.camera.transform._rotation.x, //amount to rotate in radians
+                [0,0,1]); // rotate around which axis
+           mat4.rotate(
+               modelMatrix,
+               modelMatrix,
+               1/180 * this.camera.transform._rotation.y, //amount to rotate in radians
+               [0,1,0]); // rotate around which axis
+           mat4.rotate(
+               modelMatrix,
+               modelMatrix,
+               1/180 * this.camera.transform._rotation.x, //amount to rotate in radians
+               [1,0,0]); // rotate around which axis
+           
+
 
             const viewMatrix = mat4.create();
             mat4.invert(viewMatrix, CameraMatrix);

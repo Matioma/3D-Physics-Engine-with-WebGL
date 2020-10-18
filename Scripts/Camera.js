@@ -26,6 +26,11 @@ export default class Camera extends GameObject{
         if(Input.Key === Input.KeyKode.Space){
             this.transform.position.add(new Vector3(0,0.1,0));
         }
+        // if(Input.Key === Input.KeyKode.Q){
+        //     this.transform.rotate(0,1,0);
+        // }
+
+        // this.transform.rotate(0,1,0);
 
         // if(Input.Key === Input.KeyKode.KeyRight){
         //     this.transform.position.add(new Vector3(0.1,0,0));
