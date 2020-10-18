@@ -116,34 +116,41 @@ export default class Renderer{
             zNear,
             zFar);
 
-        
-        
+
          //Create model matrix
         const modelMatrix = mat4.create();
-        mat4.scale(
-        modelMatrix,
-        modelMatrix,
-        // transform._scale.toArray());
-        transform._scale.toArray());
+      
+   
+
         mat4.translate(
             modelMatrix,
             modelMatrix,
             transform.position.toArray());
+
         mat4.rotate(
-             modelMatrix,
-             modelMatrix,
-             1/180 * transform._rotation.z, //amount to rotate in radians
-             [0,0,1]); // rotate around which axis
+            modelMatrix,
+            modelMatrix,
+            1/180 * transform._rotation.z, //amount to rotate in radians
+            [0,0,1]); // rotate around which axis
+
         mat4.rotate(
             modelMatrix,
             modelMatrix,
             1/180 * transform._rotation.y, //amount to rotate in radians
             [0,1,0]); // rotate around which axis
+
         mat4.rotate(
             modelMatrix,
             modelMatrix,
             1/180 * transform._rotation.x, //amount to rotate in radians
             [1,0,0]); // rotate around which axis
+            
+        mat4.scale(
+            modelMatrix,
+            modelMatrix,
+            // transform._scale.toArray());
+            transform._scale.toArray());
+     
         
         
         

@@ -44,7 +44,11 @@ export default class Scene{
 
         newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Plane()));
-        newGameObject.transform.position = new Vector3(-2.0,2.0, -5);
+        newGameObject.transform.position = new Vector3(-2.0,-2.0, -5);
+        
+        newGameObject.transform.scale(2,2,2);
+
+        // newGameObject.transform.scale =new Vector3(2,2,2);
         this.AddObject(this._SceneObject,newGameObject);
     }
 

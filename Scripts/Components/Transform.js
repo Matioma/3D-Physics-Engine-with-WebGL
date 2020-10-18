@@ -57,7 +57,7 @@ export default class Transform extends Component{
             }
             return;
         }
-        this._rotation.set(x,y,z);
+        this._scale.set(x,y,z);
     }
     Start(){
         // console.log("Transform Start Methods");
