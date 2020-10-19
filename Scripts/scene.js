@@ -17,12 +17,20 @@ export default class Scene{
         this.BuildScene();
 
         this._Camera = new Camera();
-        this._Camera.transform.position = new Vector3(0,0,100);
+        this._Camera.transform.position = new Vector3(0,0,50);
+        this._Camera.transform.rotate(0,60,0);
         this._Renderer = new Renderer(this._Camera); 
     }
     get SceneObjects(){
         return this._SceneObject;
     }
+    
+
+    RestartScene(){
+        this._SceneObject = [];
+        this.BuildScene();
+    }
+
 
     AddObject(collection, newObject){
         collection.push(newObject);

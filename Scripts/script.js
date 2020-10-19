@@ -15,7 +15,7 @@ function Setup(){
 }
 function Update(){
     if(Input.Key == Input.KeyKode.R){
-        Setup();
+        currentScene.RestartScene();
     }
 
 

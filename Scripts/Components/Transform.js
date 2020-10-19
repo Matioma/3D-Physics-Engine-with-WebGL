@@ -34,7 +34,7 @@ export default class Transform extends Component{
         forwardVector.y =forwardVector.y;
         forwardVector.z =forwardVector.z * Math.cos(this._rotation.y/180.0) - forwardVector.x*Math.sin(this._rotation.y/180.0);
 
-        console.log(forwardVector);
+        // console.log(forwardVector);
 
         return forwardVector;
     }
