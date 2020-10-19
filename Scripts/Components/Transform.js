@@ -16,7 +16,6 @@ export default class Transform extends Component{
     set position(newPosition){
         this._position.set(newPosition);
     }
-
     get rotation(){
         return this._rotation;
     }
@@ -24,17 +23,13 @@ export default class Transform extends Component{
         this._rotation.set(newRotation);
     }
 
-
     get Forward(){
         let forwardVector = Vector3.Forward.copyVector();
 
         //RotateX
-
         forwardVector.x = forwardVector.z * Math.sin(this._rotation.y/180.0) +  forwardVector.x*Math.cos(this._rotation.y/180.0);
         forwardVector.y =forwardVector.y;
         forwardVector.z =forwardVector.z * Math.cos(this._rotation.y/180.0) - forwardVector.x*Math.sin(this._rotation.y/180.0);
-
-        // console.log(forwardVector);
 
         return forwardVector;
     }
@@ -42,7 +37,6 @@ export default class Transform extends Component{
 
     get Up(){
         let forwardVector = Vector3.Up.copyVector();
-
         return forwardVector;
     }
 
@@ -92,11 +86,9 @@ export default class Transform extends Component{
         this._scale.set(x,y,z);
     }
     Start(){
-        // console.log("Transform Start Methods");
     }
     
     Step(){
-        //  console.log("Transform Step Method");
     }
 
 }

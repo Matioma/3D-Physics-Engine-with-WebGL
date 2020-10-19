@@ -181,17 +181,6 @@ export default class Renderer{
                 CameraMatrix,
                 1/180 * this.camera.transform._rotation.x, //amount to rotate in radians
                 [1,0,0]); // rotate around which axis
-           
-            // var inversTranslate =vec3.multiplyBy(-1);
-            
-
-            // mat4.translate(
-            //     CameraMatrix,
-            //     CameraMatrix,
-            //     inversTranslate.toArray()
-            // )
-                
-
 
             const viewMatrix = mat4.create();
             mat4.invert(viewMatrix, CameraMatrix);
