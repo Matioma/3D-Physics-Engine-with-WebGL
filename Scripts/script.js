@@ -3,6 +3,7 @@ import {fsSource} from "./Shaders/fragmentShader.js";
 import {vsSource} from "./Shaders/vertexShader.js" 
 
 import Scene from "./scene.js";
+import BallisticsScene from "./Scenes/BallisticsScene.js";
 
 import Input from "./Input.js";
 import Time from "./Time.js";
@@ -11,13 +12,13 @@ let currentScene;
 
 Setup();
 function Setup(){
-    currentScene = new Scene();
+    //currentScene = new Scene();
+    currentScene = new BallisticsScene();
 }
 function Update(){
     if(Input.Key == Input.KeyKode.R){
         currentScene.RestartScene();
     }
-
 
     currentScene.Update();
     Input.key = undefined;

@@ -13,7 +13,6 @@ import RigidBody from "./Components/RigidBody.js";
 export default class Scene{
     constructor(){
         this._SceneObject = [];
-        
         this.BuildScene();
 
         this._Camera = new Camera();
@@ -50,16 +49,6 @@ export default class Scene{
         RigidBodyComponent.AddForce(new Vector3(-0.5,0,0));
         this.AddObject(this._SceneObject,newGameObject);
 
-
-        // var e = m*s*s;
-
-
-
-        // RigidBodyComponent.AddForce(new Vector3(0,1000,0));
-
-        
-
-        //
         newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Plane()));
         newGameObject.transform.position = new Vector3(-2.0,-20.0, -5);
