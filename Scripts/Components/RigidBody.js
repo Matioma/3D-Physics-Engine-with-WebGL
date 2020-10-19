@@ -43,7 +43,7 @@ export default class RigidBody extends Component{
         this._comulativeForce = new Vector3(0,0,0);
     }
     Step(){
-        this.Integrate(Time.deltaTime);
+       // this.Integrate(Time.deltaTime);
     }
 
     //INtegrates position, velocity and acceleration

@@ -25,6 +25,38 @@ export default class Transform extends Component{
     }
 
 
+    get Forward(){
+        let forwardVector = Vector3.Forward.copyVector();
+
+        //RotateX
+
+        forwardVector.x = forwardVector.z * Math.sin(this._rotation.y/180.0) +  forwardVector.x*Math.cos(this._rotation.y/180.0);
+        forwardVector.y =forwardVector.y;
+        forwardVector.z =forwardVector.z * Math.cos(this._rotation.y/180.0) - forwardVector.x*Math.sin(this._rotation.y/180.0);
+
+        console.log(forwardVector);
+
+        return forwardVector;
+    }
+
+
+    get Up(){
+        let forwardVector = Vector3.Up.copyVector();
+
+        return forwardVector;
+    }
+
+    get Right(){
+        let forwardVector = Vector3.Right.copyVector();
+
+        forwardVector.x = forwardVector.z * Math.sin(this._rotation.y/180.0) +  forwardVector.x*Math.cos(this._rotation.y/180.0);
+        forwardVector.y =forwardVector.y;
+        forwardVector.z =forwardVector.z * Math.cos(this._rotation.y/180.0) - forwardVector.x*Math.sin(this._rotation.y/180.0);
+        
+        return forwardVector;
+    }
+
+
     get scale(){
         return this._scale;
     }

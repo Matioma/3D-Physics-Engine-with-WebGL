@@ -158,8 +158,6 @@ export default class Renderer{
         if(this.camera != undefined){
             var vec3 =this.camera.transform.position;
 
-            // var eye = new Vector3(0,0,10);
-            // eye.multiply(-1);
 
             const CameraMatrix =mat4.create();
             mat4.translate(
@@ -167,27 +165,32 @@ export default class Renderer{
                 CameraMatrix,
                 vec3.toArray()
             )
+
             mat4.rotate(
-                modelMatrix,
-                modelMatrix,
+                CameraMatrix,
+                CameraMatrix,
                 1/180 * this.camera.transform._rotation.x, //amount to rotate in radians
                 [0,0,1]); // rotate around which axis
             mat4.rotate(
-                modelMatrix,
-                modelMatrix,
+                CameraMatrix,
+                CameraMatrix,
                 1/180 * this.camera.transform._rotation.y, //amount to rotate in radians
                 [0,1,0]); // rotate around which axis
             mat4.rotate(
-                modelMatrix,
-                modelMatrix,
+                CameraMatrix,
+                CameraMatrix,
                 1/180 * this.camera.transform._rotation.x, //amount to rotate in radians
                 [1,0,0]); // rotate around which axis
            
+            // var inversTranslate =vec3.multiplyBy(-1);
+            
 
-            // console.log(this.camera.transform.position);
-            // var copy = this.camera.transform.position.copyVector();
-            // console.log("Copy " +copy.multiplyBy(-1));
-            // mat4.translate(modelMatrix,modelMatrix, copy.multiplyBy(-1));
+            // mat4.translate(
+            //     CameraMatrix,
+            //     CameraMatrix,
+            //     inversTranslate.toArray()
+            // )
+                
 
 
             const viewMatrix = mat4.create();

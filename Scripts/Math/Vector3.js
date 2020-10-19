@@ -1,4 +1,8 @@
 export default class Vector3{
+    static Forward = new Vector3(0,0,-1);
+    static Right = new Vector3(1,0,0);
+    static Up = new Vector3(0,1,0);
+
     constructor(x =0, y =0, z =0 ){
         this.x = x;
         this.y = y;
