@@ -14,6 +14,11 @@ function Setup(){
     currentScene = new Scene();
 }
 function Update(){
+    if(Input.Key == Input.KeyKode.R){
+        Setup();
+    }
+
+
     currentScene.Update();
     Input.key = undefined;
     Time.UpdateDeltaTime();
@@ -63,6 +68,9 @@ window.addEventListener("keydown", function (event) {
             break;
         case "e":
             Input.Key = Input.KeyKode.E;
+            break;
+        case "r":
+            Input.Key = Input.KeyKode.R;
             break;
       default:
         return;

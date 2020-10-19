@@ -17,7 +17,7 @@ export default class Scene{
         this.BuildScene();
 
         this._Camera = new Camera();
-        this._Camera.transform.position = new Vector3(0,0,0);
+        this._Camera.transform.position = new Vector3(0,0,400);
         this._Renderer = new Renderer(this._Camera); 
     }
     get SceneObjects(){
@@ -29,25 +29,34 @@ export default class Scene{
     }
 
     BuildScene(){
+        //Create gameObject
         let newGameObject =new GameObject();
-        newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
-        newGameObject.AddComponent("RigidBody", new RigidBody());
-        // console.log(newGameObject);
-        newGameObject.transform.position = new Vector3(-0.0,0.0, -5);
+        var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+        var RigidBodyComponent =newGameObject.AddComponent("RigidBody", new RigidBody());
+        
+        newGameObject.transform.position = new Vector3(-20.0,5.0, -5);
+        newGameObject.transform.scale(3,3,3); 
+
+        RigidBodyComponent.Mass = 1;
+        RigidBodyComponent.AddForce(new Vector3(0.5,0,0));
+        RigidBodyComponent.AddForce(new Vector3(-0.5,0,0));
         this.AddObject(this._SceneObject,newGameObject);
 
-        // newGameObject =new GameObject();
-        // newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
-        // // console.log(newGameObject);
-        // newGameObject.transform.position = new Vector3(-0.0,4, -5);
-        // this.AddObject(this._SceneObject,newGameObject);
+
+        // var e = m*s*s;
 
 
+
+        // RigidBodyComponent.AddForce(new Vector3(0,1000,0));
+
+        
+
+        //
         newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Plane()));
-        newGameObject.transform.position = new Vector3(-2.0,-2.0, -5);
+        newGameObject.transform.position = new Vector3(-2.0,-20.0, -5);
         
-        newGameObject.transform.scale(2,2,2);
+        newGameObject.transform.scale(50,1,50);
 
         // newGameObject.transform.scale =new Vector3(2,2,2);
         this.AddObject(this._SceneObject,newGameObject);

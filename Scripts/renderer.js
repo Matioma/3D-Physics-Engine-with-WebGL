@@ -106,7 +106,7 @@ export default class Renderer{
         const fieldOfView = 45 *Math.PI/180; 
         const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
         const zNear =0.1;
-        const zFar = 100;
+        const zFar = 1000;
     
         //Create projection matrix
         const projectionMatrix = mat4.create();
