@@ -10,7 +10,7 @@ export default class Input{
         "D":7, 
         "W":8, 
         "Shift":9, 
-        "Space":10, "Q":11, "E":12, "R":13});    
+        "Space":10, "Q":11, "E":12, "R":13, "C":14});    
 
     static set Key(data){ 
         Input.key = data; 

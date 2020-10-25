@@ -9,6 +9,7 @@ import MeshData from "./Components/MeshData.js";
 import * as Shapes from "./ShapesData/Shape.js";
 import Camera from "./Camera.js";
 import RigidBody from "./Components/RigidBody.js";
+import ParticleForceRegistry from "./Physics/ParticleForceRegistry.js";
 
 export default class Scene{
     constructor(){
@@ -37,35 +38,37 @@ export default class Scene{
 
     BuildScene(){
         //Create gameObject
-        let newGameObject =new GameObject();
-        var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
-        var RigidBodyComponent =newGameObject.AddComponent("RigidBody", new RigidBody());
+        let box =new GameObject();
+        var MeshDataComponent = box.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+        var RigidBodyComponent =box.AddComponent("RigidBody", new RigidBody());
         
-        newGameObject.transform.position = new Vector3(-20.0,5.0, -5);
-        newGameObject.transform.scale(3,3,3); 
+        box.transform.position = new Vector3(-20.0,5.0, -5);
+        box.transform.scale(3,3,3); 
 
         RigidBodyComponent.Mass = 1;
         RigidBodyComponent.AddForce(new Vector3(0.5,0,0));
         RigidBodyComponent.AddForce(new Vector3(-0.5,0,0));
-        this.AddObject(this._SceneObject,newGameObject);
+        this.AddObject(this._SceneObject,box);
 
-        newGameObject =new GameObject();
-        newGameObject.AddComponent("meshData",new MeshData(new Shapes.Plane()));
-        newGameObject.transform.position = new Vector3(-2.0,-20.0, -5);
+
+
+        let plane =new GameObject();
+        plane.AddComponent("meshData",new MeshData(new Shapes.Plane()));
+        plane.transform.position = new Vector3(-2.0,-10.0, -5);
         
-        newGameObject.transform.scale(50,1,50);
+        plane.transform.scale(50,1,50);
 
         // newGameObject.transform.scale =new Vector3(2,2,2);
-        this.AddObject(this._SceneObject,newGameObject);
+        this.AddObject(this._SceneObject,plane);
     }
 
     Update(){
+        ParticleForceRegistry.Instance.update()
         this.Step();
         this.draw();
     }
 
     Step(){
-        // this.Camera.Step();
         this._Camera.Step();
         this._SceneObject.forEach(element => {
             element.Step();
