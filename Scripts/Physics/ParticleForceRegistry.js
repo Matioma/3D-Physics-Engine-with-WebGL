@@ -1,5 +1,5 @@
 import RigidBody from "../Components/RigidBody.js"
-import ParticleForceGenerator from "./ParticleForceGenerator.js"
+import ParticleForceGenerator from "./ForceGenerators/ParticleForceGenerator.js"
 import Time from "../Time.js"
 
 export default class ParticleForceRegistry{

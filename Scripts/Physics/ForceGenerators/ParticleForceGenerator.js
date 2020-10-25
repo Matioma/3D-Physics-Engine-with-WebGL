@@ -1,4 +1,4 @@
-import RigidBody from "../Components/RigidBody.js"
+import RigidBody from "../../Components/RigidBody.js"
 
 export default class ParticleForceGenerator{
     constructor(){
