@@ -1,19 +1,22 @@
+import Vector3 from "../Math/Vector3.js";
 
-import Vector3 from "./Math/Vector3.js";
-import Transform from "./Components/Transform.js";
+import GameObject from "../GameObject.js";
+import Renderer from "../Renderer.js";
 
-import GameObject from "./GameObject.js";
-import Renderer from "./Renderer.js";
+import MeshData from "../Components/MeshData.js";
+import * as Shapes from "../ShapesData/Shape.js";
 
-import MeshData from "./Components/MeshData.js";
-import * as Shapes from "./ShapesData/Shape.js";
-import Camera from "./Camera.js";
-import RigidBody from "./Components/RigidBody.js";
-import ParticleForceRegistry from "./Physics/ParticleForceRegistry.js";
+import Camera from "../Camera.js";
+import RigidBody from "../Components/RigidBody.js";
+import ParticleForceRegistry from "../Physics/ParticleForceRegistry.js";
+
+
+
 
 export default class Scene{
     constructor(){
         this._SceneObject = [];
+        ParticleForceRegistry.Instance.clear();
         this.BuildScene();
 
         this._Camera = new Camera();
@@ -28,9 +31,9 @@ export default class Scene{
 
     RestartScene(){
         this._SceneObject = [];
+        ParticleForceRegistry.Instance.clear();
         this.BuildScene();
     }
-
 
     AddObject(collection, newObject){
         collection.push(newObject);

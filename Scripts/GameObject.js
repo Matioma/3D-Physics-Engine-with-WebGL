@@ -1,7 +1,6 @@
 import Vector3 from "./Math/Vector3.js";
 import Transform from "./Components/Transform.js";
 import Component from "./Components/Component.js";
-// import MeshData from "./Components/MeshData.js";
 
 export default class GameObject {
     constructor(){

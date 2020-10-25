@@ -11,8 +11,6 @@ export default class MeshData extends Component{
         this._shape = MeshShape;
     }
 
-
     Step(){
-        // console.log("MeshData step");
     }
 }

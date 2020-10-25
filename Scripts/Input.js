@@ -1,4 +1,3 @@
-
 export default class Input{
     static  KeyKode = Object.freeze(
         {"KeyUp":1, 

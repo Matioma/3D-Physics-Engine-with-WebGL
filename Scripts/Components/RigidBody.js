@@ -2,7 +2,6 @@ import Component from "./Component.js";
 import Time from "../Time.js";
 import Vector3 from "../Math/Vector3.js";
 
-//import ParticleForceGenerator from "../Physics/ParticleForceGenerator.js"
 import ParticleForceRegistry from "../Physics/ParticleForceRegistry.js"
 import GravityForceGenerator from "../Physics/ForceGenerators/GravityForceGenerator.js"
 

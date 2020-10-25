@@ -1,9 +1,5 @@
-// import Renderer from "./Renderer.js";
-import {fsSource} from "./Shaders/fragmentShader.js";
-import {vsSource} from "./Shaders/vertexShader.js" 
 
-import Scene from "./scene.js";
-import BallisticsScene from "./Scenes/BallisticsScene.js";
+import Scene from "./Scenes/scene.js";
 
 import Input from "./Input.js";
 import Time from "./Time.js";

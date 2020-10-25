@@ -1,5 +1,0 @@
-
-// class MeshData{
-//     constructor(vertexData, ){
-//     }
-// }

@@ -1,9 +1,8 @@
 import {fsSource} from "./Shaders/fragmentShader.js";
 import {vsSource} from "./Shaders/vertexShader.js" 
 
-import Scene from "./scene.js";
+import Scene from "./Scenes/scene.js";
 import Camera from "./Camera.js";
-import Vector3 from "./Math/Vector3.js";
 
 export default class Renderer{
     constructor(camera){

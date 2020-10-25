@@ -1,26 +1,22 @@
-import Scene from "../scene.js";
+import Scene from "./scene.js";
 
 import Vector3 from "../Math/Vector3.js";
-import Transform from "../Components/Transform.js";
-
 import GameObject from "../GameObject.js";
-import Renderer from "../Renderer.js";
 
 import MeshData from "../Components/MeshData.js";
 import * as Shapes from "../ShapesData/Shape.js";
-import Camera from "../Camera.js";
+
+
 import RigidBody from "../Components/RigidBody.js";
 import Input from "../Input.js";
 
-import ParticleForceRegistry from "../Physics/ParticleForceRegistry.js"
 
 export default class BallisticScene extends Scene{
     static BulletTypes = Object.freeze({"Pistol":1, "Fireball":2});
     constructor(){
         super();
 
-        //ParticleForceRegistry.Instance.clear();
-        console.log(ParticleForceRegistry.Instance);
+
         this._Camera.transform.position = new Vector3(0,20,200);
     }
 
