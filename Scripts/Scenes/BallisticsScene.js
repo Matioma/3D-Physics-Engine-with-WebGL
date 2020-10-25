@@ -56,8 +56,8 @@ export default class BallisticScene extends Scene{
 
         switch (shotType){
             case BallisticScene.BulletTypes.Pistol:
-                rigidBody.Mass= 2.0;
-                rigidBody.velocity =new Vector3(10,10,0);
+                rigidBody.Mass= 1.0;
+                rigidBody.velocity =new Vector3(1,0,0);
                 rigidBody.GravityAcceleration =new Vector3(0,-1,0);
                 rigidBody.dumping = 0.99;
                 break;

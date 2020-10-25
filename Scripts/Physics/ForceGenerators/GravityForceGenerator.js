@@ -11,6 +11,10 @@ export default class GravityForceGenerator extends ParticleForceGenerator{
         if(!rigidBody instanceof RigidBody){
             console.error("Make sure thst it is a rigidBody")
         }
-        rigidBody.AddForce(this.gravity);
+
+        if(!rigidBody.HasFiniteMass()){
+            return;
+        }
+        rigidBody.AddForce(this.gravity.multiplyBy(rigidBody.Mass));
     };
 }

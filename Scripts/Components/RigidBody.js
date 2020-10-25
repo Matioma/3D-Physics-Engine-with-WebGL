@@ -9,7 +9,7 @@ export default class RigidBody extends Component{
     constructor(){
         super();
 
-        this.velocity = new Vector3(5,15.0,0);
+        this.velocity = new Vector3(1,0.0,0);
         this.acceleration = new Vector3(0,0,0);
         this._forceComulative = new Vector3(0,0,0);
 
@@ -36,6 +36,13 @@ export default class RigidBody extends Component{
             console.error("trying to set a mass of zero, are you sure you are not trying to set the InverseMass?");
         }
     }
+    get Mass(){
+        return 1/this.InverseMass;
+    }
+    HasFiniteMass(){
+        return this._inverseMass !=0;
+    }
+
     AddForce(forceVector){
         if(!forceVector instanceof Vector3){
             console.log("Error tried to add as force not a force");
@@ -61,6 +68,8 @@ export default class RigidBody extends Component{
         let accelerationFromForces = this._forceComulative.multiplyBy(this.InverseMass); 
         this.acceleration.add(accelerationFromForces.multiplyBy(delta));
 
+
+        console.log(this._forceComulative.multiplyBy(this.InverseMass));
         //Add velocity based on Acceleration 
         this.velocity.add(this.acceleration.multiplyBy(delta));
         //Add damping to the velocity
