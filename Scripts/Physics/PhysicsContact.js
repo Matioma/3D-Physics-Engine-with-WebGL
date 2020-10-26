@@ -19,9 +19,9 @@ export default class PhysicsContact{
             this.CollisionNormal = new Vector3(0,1,0);
         }
         if(Restiution){
-            this.Resitution = Restiution;
+            this.Restitution = Restiution;
         }else{
-            this.Resitution = 1;
+            this.Restitution = 1;
         }
 
         this.penetration = 0;
@@ -75,17 +75,12 @@ export default class PhysicsContact{
         newVelocity.y *= -1.0;
         newVelocity.multiply(this.Particles[0].Restitution);
         
-        //console.log(newVelocity.length());
         this.Particles[0].Velocity = newVelocity.copyVector();
-        //console.log(this.Particles[0].Velocity);
-        //console.log("--------");
-        //this.Particles[0].Velocity.multiply(-1.0);
-        //this.Particles[0].Velocity.multiply(this.Particles[0].Restitution);
 
        
 
 
-        // let newSeparatingVelocity = separatingVelocity.multiplyBy(-1).multiplyBy(this.Resitution);
+        let newSeparatingVelocity = separatingVelocity.multiplyBy(-1).multiplyBy(this.Restitution);
 
 
 
