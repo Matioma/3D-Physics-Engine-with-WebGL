@@ -31,7 +31,8 @@ export default class GameObject {
     GetComponent(TypeName){
         let component = this._components[TypeName];
         if(component == undefined){
-            console.error(`Could not find the Requrested Component of ${TypeName}`);
+            //console.error(`Could not find the Requrested Component of ${TypeName}`);
+            return null;
         }
         return component;
     }

@@ -9,6 +9,7 @@ import * as Shapes from "../ShapesData/Shape.js";
 import Camera from "../Camera.js";
 import RigidBody from "../Components/RigidBody.js";
 import ParticleForceRegistry from "../Physics/ParticleForceRegistry.js";
+import CollsionResolver from "../Physics/CollsionResolver.js";
 
 
 
@@ -16,8 +17,11 @@ import ParticleForceRegistry from "../Physics/ParticleForceRegistry.js";
 export default class Scene{
     constructor(){
         this._SceneObject = [];
-        ParticleForceRegistry.Instance.clear();
+        //ParticleForceRegistry.Instance.clear();
+
+
         this.BuildScene();
+        this.CollsionResolver = new CollsionResolver(this);
 
         this._Camera = new Camera();
         this._Camera.transform.position = new Vector3(0,0,50);

@@ -58,10 +58,10 @@ export default class Vector3{
         return this.x*this.x + this.y*this.y + this.z*this.z;
     }
     length(){
-        return Math.sqrt(sqrLength());
+        return Math.sqrt(this.sqrLength());
     }
     normalize(){
-        this.multiply(1/length());
+        this.multiply(1/this.length());
     }
     normalized(){
         let newVector = new Vector3(this.x, this.y, this.z);
