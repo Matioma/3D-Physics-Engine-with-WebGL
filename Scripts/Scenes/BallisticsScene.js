@@ -36,12 +36,35 @@ export default class BallisticScene extends Scene{
         // this.spawnBullet(BallisticScene.BulletTypes.Pistol);
 
 
-        this.spawnCube(new Vector3(10,70,20), new Vector3(-3,0,0));
-        this.spawnCube(new Vector3(50,30,20),new Vector3(1,10,10));
-        this.spawnCube(new Vector3(30,40,20),new Vector3(2,-10,-5));
-        this.spawnCube(new Vector3(20,30,50),new Vector3(2,-10,5));
+        // this.spawnCube(new Vector3(10,70,20), new Vector3(-3,0,0));
+        // this.spawnCube(new Vector3(50,30,20),new Vector3(1,10,10));
+        // this.spawnCube(new Vector3(30,40,20),new Vector3(2,-10,-5));
+        // this.spawnCube(new Vector3(20,30,50),new Vector3(2,-10,5));
         // this.spawnCube(new Vector3(60,30,10));
         // this.spawnCube(new Vector3(10,60,20));
+
+
+        for(let i =0; i<30; i++){
+            let x= Math.random()*100 -50;
+            let z= Math.random()*100 -50;
+            let y= Math.random()*100 -50;
+
+            let dx= Math.random()*10 -5;
+            let dz= Math.random()*10 -5;
+            let dy= Math.random()*10 -5;
+
+
+            this.spawnCube(new Vector3(x,y,z), new Vector3(dx,dy,dz));
+        }
+
+
+
+
+        // this.spawnCube(new Vector3(-40,30,20));
+        // this.spawnCube(new Vector3(-40,30,20));
+        // this.spawnCube(new Vector3(-40,30,20));
+        // this.spawnCube(new Vector3(-40,30,20));
+        // this.spawnCube(new Vector3(-40,30,20));
         // this.spawnCube(new Vector3(-40,30,20));
 
 
@@ -62,6 +85,7 @@ export default class BallisticScene extends Scene{
 
         //rigidBody.GravityAcceleration =new Vector3(0,-1,0);
         rigidBody.dumping = 0.999;
+        rigidBody.Restitution = 0.9;
         rigidBody.Mass= 1.0;
 
         newGameObject.transform.position = position.copyVector();

@@ -278,7 +278,6 @@ export class Sphere extends Shape{
     }
 
     get FaceColors(){
-
         //COncatinate array of arrays to get one single array of values required by the GPU
         let colors =[];
         for (let i=0; i< this._FaceColors.length; i++){
@@ -286,8 +285,6 @@ export class Sphere extends Shape{
             colors =colors.concat(c);
         }
         return colors;
-
-
     }
 }
 

@@ -38,8 +38,6 @@ export default class Renderer{
                 uViewProjectionMatrix:this.gl.getUniformLocation(this.shaderProgram, "uViewProjectionMatrix")
             },
         }
-        // const buffers =this.initBuffers(this.gl);
-        // this.drawScene(this.gl,this.programInfo,buffers);
     }
     draw(scene){
         this.gl.clearColor(0.0,0.0,0.0,1.0);
@@ -66,19 +64,19 @@ export default class Renderer{
 
         const positionBuffer = this.gl.createBuffer();  
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array( meshData._shape.VertexPositions), this.gl.STATIC_DRAW); 
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array( meshData._shape.VertexPositions), this.gl.DYNAMIC_DRAW); 
 
         const colorBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER,colorBuffer);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(meshData._shape.FaceColors),this.gl.STATIC_DRAW);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(meshData._shape.FaceColors),this.gl.DYNAMIC_DRAW);
 
         const normalBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER,normalBuffer);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(meshData._shape.VertexNormals),this.gl.STATIC_DRAW);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(meshData._shape.VertexNormals),this.gl.DYNAMIC_DRAW);
     
         const indexBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER,indexBuffer);
-        this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(meshData._shape.Indices), this.gl.STATIC_DRAW);
+        this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(meshData._shape.Indices), this.gl.DYNAMIC_DRAW);
 
        
         return{
@@ -272,6 +270,7 @@ export default class Renderer{
          );  
          {
             const vertexCount = buffers.lengthOfIndices;
+           // console.log(vertexCount);
             const type = gl.UNSIGNED_SHORT;
             const offset =0;
             gl.drawElements(gl.TRIANGLES,vertexCount,type,offset);
