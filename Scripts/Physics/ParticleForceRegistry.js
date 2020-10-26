@@ -49,8 +49,6 @@ export default class ParticleForceRegistry{
        
         for(let i=0; i<ParticleForceRegistry.Instance.Registry.length; i++){
             ParticleForceRegistry.Instance.Registry[i].forceGenerator.updateForce(ParticleForceRegistry.Instance.Registry[i].rigidBody,Time.DeltaTime);
-        
-            console.log(ParticleForceRegistry.Instance.Registry.length);
         }
     }
 

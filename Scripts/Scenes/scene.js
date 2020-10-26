@@ -36,7 +36,9 @@ export default class Scene{
     RestartScene(){
         this._SceneObject = [];
         ParticleForceRegistry.Instance.clear();
+        this.CollsionResolver.clear();
         this.BuildScene();
+        this.CollsionResolver = new CollsionResolver(this);
     }
 
     AddObject(collection, newObject){
@@ -70,7 +72,8 @@ export default class Scene{
     }
 
     Update(){
-        ParticleForceRegistry.Instance.update()
+        ParticleForceRegistry.Instance.update();
+        this.CollsionResolver.update();
         this.Step();
         this.draw();
     }

@@ -5,7 +5,7 @@ import RigidBody from "../../Components/RigidBody.js"
 export default class GravityForceGenerator extends ParticleForceGenerator{
     constructor(){
         super();
-        this.gravity = new Vector3(0,-0.1,0);
+        this.gravity = new Vector3(0,-10.0,0);
     }
     updateForce(rigidBody, deltaTime){
         if(!rigidBody instanceof RigidBody){

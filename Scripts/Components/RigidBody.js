@@ -15,23 +15,33 @@ export default class RigidBody extends Component{
         this.acceleration = new Vector3(0,0,0);
         this._forceComulative = new Vector3(0,0,0);
 
+        this._restitution = 1;
         
         let gravityGenerator = new GravityForceGenerator();
 
         ParticleForceRegistry.Instance.registerParticle(this, gravityGenerator);
 
 
-        this.dumping =0.995;
+        this.dumping =0.95;
         this._inverseMass = 0;
     }
 
+    set Restitution(value){
+        this._restitution = value;
+    }
+
+    get Restitution(){
+        return this._restitution;
+    }
 
     get Velocity(){
+        //console.error( this._velocity);
         return this._velocity;
     }
 
     set Velocity(value){
-        this._velocity = value.copyVector(); 
+        //console.error(value);
+        this._velocity.set(value.x,value.y,value.z); 
     }
 
 
@@ -65,7 +75,15 @@ export default class RigidBody extends Component{
     resetComulativeForce(){
         this._forceComulative = new Vector3(0,0,0);
     }
+
+
+
+
+
     Step(){
+        //console.log("Veclcity " +this.Velocity);
+
+
         this.Integrate(Time.deltaTime);
         this.resetComulativeForce();
 
@@ -74,24 +92,32 @@ export default class RigidBody extends Component{
 
     //INtegrates position, velocity and acceleration
     Integrate(delta){
-       // this.acceleration.set(0,0,0);
+        this.acceleration.set(0,0,0);
 
         //Move the object
-        this.owner.transform.position.add(this._velocity.multiplyBy(delta)); 
+        this.owner.transform.position.add(this.Velocity.multiplyBy(delta)); 
 
         //Get the acceleration change from forces applied
         let accelerationFromForces = this._forceComulative.multiplyBy(this.InverseMass); 
-        this.acceleration.add(accelerationFromForces);
+        this.acceleration.add(accelerationFromForces.multiplyBy(delta));
 
-        
+        //console.log(accelerationFromForces);
+
+        // console.log("--------");
+        // console.log(this._forceComulative);
+        // console.log("--------");
         
         //console.log(this._forceComulative.multiplyBy(this.InverseMass));
         //Add velocity based on Acceleration 
-        this._velocity.add(this.acceleration.multiplyBy(delta));
+        this.Velocity.add(this.acceleration.multiplyBy(delta));
         //Add damping to the velocity
-        this._velocity.multiply(Math.pow(this.dumping,delta));
-       // console.log(this.Velocity);
+        //this._velocity.multiply(Math.pow(this.dumping,delta));
+        this.Velocity.multiply(this.dumping);
+       
 
-       console.log(this._velocity);
+        //console.log(this.Velocity);
+        // console.log(this.Velocity);
+
+       //console.log(this._velocity);
     }
 }

@@ -23,26 +23,26 @@ export default class BallisticScene extends Scene{
     Step(){
         super.Step();
         if(Input.Key == Input.KeyKode.C){
-            this.spawnBullet(BallisticScene.BulletTypes.Pistol);
+            //this.spawnBullet(BallisticScene.BulletTypes.Pistol);
         }
     }
 
     BuildScene(){
         // this.spawnBullet(BallisticScene.BulletTypes.Pistol);
 
-        this.spawnCube(new Vector3(10,70,20), new Vector3(4,0,0));
-        this.spawnCube(new Vector3(50,30,20))
-        this.spawnCube(new Vector3(30,40,20))
-        this.spawnCube(new Vector3(20,30,50))
-        this.spawnCube(new Vector3(60,30,10))
-        this.spawnCube(new Vector3(10,60,20))
-        this.spawnCube(new Vector3(-40,30,20))
+        this.spawnCube(new Vector3(10,70,20), new Vector3(-3,0,0));
+        this.spawnCube(new Vector3(50,30,20),new Vector3(1,10,10));
+        this.spawnCube(new Vector3(30,40,20),new Vector3(2,-10,-5));
+        this.spawnCube(new Vector3(20,30,50));
+        this.spawnCube(new Vector3(60,30,10));
+        this.spawnCube(new Vector3(10,60,20));
+        this.spawnCube(new Vector3(-40,30,20));
 
 
         //Spawn plane
         let newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Plane()));
-        newGameObject.transform.position = new Vector3(-2.0,-20.0, -5);
+        newGameObject.transform.position = new Vector3(-2.0,-3, -5);
         
         newGameObject.transform.scale(100,1,100);
 
@@ -55,17 +55,15 @@ export default class BallisticScene extends Scene{
         var rigidBody =newGameObject.AddComponent("RigidBody", new RigidBody());
 
         //rigidBody.GravityAcceleration =new Vector3(0,-1,0);
-        rigidBody.dumping = 0.995;
+        rigidBody.dumping = 0.999;
         rigidBody.Mass= 1.0;
 
         newGameObject.transform.position = position.copyVector();
 
         
         if(velocity){
-            console.log(velocity);
             rigidBody.Velocity =velocity.copyVector();
-        }
-        else{
+        }else{
             rigidBody.Velocity = new Vector3(0,0,0);
 
         }
@@ -89,7 +87,7 @@ export default class BallisticScene extends Scene{
         switch (shotType){
             case BallisticScene.BulletTypes.Pistol:
                 rigidBody.Mass= 1.0;
-                rigidBody.velocity =new Vector3(5,5,0);
+                //rigidBody.velocity =new Vector3(5,5,0);
                 //rigidBody.GravityAcceleration =new Vector3(0,-1,0);
                 rigidBody.dumping = 0.995;
                 break;

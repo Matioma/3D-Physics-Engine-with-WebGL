@@ -9,32 +9,32 @@ export default class DragForceGenerator extends ParticleForceGenerator{
         this.k2 = drag*drag;
 
     }
-    updateForce(rigidBody, deltaTime){
-        if(!rigidBody instanceof RigidBody){
-            console.error("Make sure thst it is a rigidBody")
-        }
+    // updateForce(rigidBody, deltaTime){
+    //     if(!rigidBody instanceof RigidBody){
+    //         console.error("Make sure thst it is a rigidBody")
+    //     }
 
-        rigidBody.Velocity
+    //     rigidBody.Velocity
 
-        let forceNormalized = rigidBody.Velocity.normalized();
-        let fragCoefficient = rigidBody.Velocity.length();
+    //     let forceNormalized = rigidBody.Velocity.normalized();
+    //     let fragCoefficient = rigidBody.Velocity.length();
 
-        fragCoefficient =fragCoefficient*this.k1 + this.k2*fragCoefficient*fragCoefficient;
+    //     fragCoefficient =fragCoefficient*this.k1 + this.k2*fragCoefficient*fragCoefficient;
 
-        console.log(rigidBody.Velocity + " = "+ forceNormalized.multiplyBy(-1*fragCoefficient));
-        //let force = forceNormalized.multiplyBy(-1* (forceMagnitude*this.k1 + this.k2*forceMagnitude*forceMagnitude) );
+    //     console.log(rigidBody.Velocity + " = "+ forceNormalized.multiplyBy(-1*fragCoefficient));
+    //     //let force = forceNormalized.multiplyBy(-1* (forceMagnitude*this.k1 + this.k2*forceMagnitude*forceMagnitude) );
 
-        //console.log(forceMagnitude*this.k1 + this.k2*forceMagnitude*forceMagnitude);
+    //     //console.log(forceMagnitude*this.k1 + this.k2*forceMagnitude*forceMagnitude);
 
-        rigidBody.AddForce(forceNormalized.multiplyBy(-1*fragCoefficient));
+    //     rigidBody.AddForce(forceNormalized.multiplyBy(-1*fragCoefficient));
 
-        //console.log(forceNormalized);
+    //     //console.log(forceNormalized);
 
 
 
-        // if(!rigidBody.HasFiniteMass()){
-        //     return;
-        // }
-        //rigidBody.AddForce(this.gravity.multiplyBy(rigidBody.Mass));
-    };
+    //     // if(!rigidBody.HasFiniteMass()){
+    //     //     return;
+    //     // }
+    //     //rigidBody.AddForce(this.gravity.multiplyBy(rigidBody.Mass));
+    // };
 }

@@ -5,6 +5,8 @@ import Input from "./Input.js";
 import Time from "./Time.js";
 import BallisticScene from "./Scenes/BallisticsScene.js";
 
+import Vector3 from "./Math/Vector3.js";
+
 let currentScene;
 
 Setup();
@@ -18,6 +20,7 @@ function Update(){
     }
 
     
+   
     currentScene.Update();
     Input.key = undefined;
     Time.UpdateDeltaTime();

@@ -23,10 +23,12 @@ export default class PhysicsContact{
         }else{
             this.Resitution = 1;
         }
-       
 
         this.penetration = 0;
     }
+
+
+
 
     Resolve(deltaTime){
         this.resolveVelocity(deltaTime);
@@ -49,10 +51,13 @@ export default class PhysicsContact{
         if(totalInverseMass<=0) return; 
 
 
-        let movePerInverseMass = this.CollisionNormal.multiplyBy(-this.penetration/totalInverseMass);
-        
 
-        this.Particles[0].owner.transform.add(movePerInverseMass * this.Particles[0].InverseMass);
+        //console.log(this.CollisionNormal.multiplyBy(this.penetration/totalInverseMass));
+        let movePerInverseMass = this.CollisionNormal.multiplyBy(this.penetration/totalInverseMass);
+        
+        //console.log(movePerInverseMass.multiplyBy(this.Particles[0].InverseMass));
+
+        this.Particles[0].owner.transform.position.add(movePerInverseMass.multiplyBy(this.Particles[0].InverseMass));
 
         if(this.Particles[1]){
             this.Particles[1].owner.transform.add(movePerInverseMass * this.Particles[1].InverseMass);
@@ -65,24 +70,50 @@ export default class PhysicsContact{
             return;
         }
 
-        let newSeparatingVelocity = separatingVelocity.multiplyBy(-1).multiplyBy(this.Resitution);
 
-        let deltaVelocity =newSeparatingVelocity.copyVector().add(separatingVelocity.multiplyBy(-1));
+        let newVelocity =  this.Particles[0].Velocity.copyVector();
+        newVelocity.y *= -1.0;
+        newVelocity.multiply(this.Particles[0].Restitution);
+        
+        //console.log(newVelocity.length());
+        this.Particles[0].Velocity = newVelocity.copyVector();
+        //console.log(this.Particles[0].Velocity);
+        //console.log("--------");
+        //this.Particles[0].Velocity.multiply(-1.0);
+        //this.Particles[0].Velocity.multiply(this.Particles[0].Restitution);
+
+       
 
 
-        let totalInverseMass = this.Particles[0].InverseMass;
-        if(this.Particles[1]) totalInverseMass.add(this.Particles[1].InverseMass);
+        // let newSeparatingVelocity = separatingVelocity.multiplyBy(-1).multiplyBy(this.Resitution);
 
 
-        if(totalInverseMass<=0) return;
 
-        let impulse = deltaVelocity.multiplyBy(1/totalInverseMass);
-        let impulsePerInverseMass = this.CollisionNormal.multiplyBy(impulse);
 
-        this.Particles[0].Velocity = this.Particles[0].Velocity.copyVector().add( impulsePerInverseMass.multiplyBy(this.Particles[0].InverseMass));
+        // let deltaVelocity =newSeparatingVelocity; //.copyVector().add(separatingVelocity.multiplyBy(-1));
+        
+        
+        // console.log(deltaVelocity);
 
-        if(this.Particles[1]){
-            his.Particles[1].Velocity = this.Particles[1].Velocity.copyVector().add( impulsePerInverseMass.multiplyBy(-this.Particles[1].InverseMass));
-        }
+        // let totalInverseMass = this.Particles[0].InverseMass;
+        // if(this.Particles[1]) totalInverseMass.add(this.Particles[1].InverseMass);
+
+
+        // if(totalInverseMass<=0) return;
+
+        // let impulse = deltaVelocity.multiplyBy(1/totalInverseMass);
+        // let impulsePerInverseMass = this.CollisionNormal.multiplyBy(impulse);
+
+
+
+
+
+        // this.Particles[0].Velocity.add( impulsePerInverseMass.multiplyBy(this.Particles[0].InverseMass));
+
+        // //this.Particles[0].Velocity = this.Particles[0].Velocity.copyVector().add( impulsePerInverseMass.multiplyBy(this.Particles[0].InverseMass));
+
+        // if(this.Particles[1]){
+        //     his.Particles[1].Velocity = this.Particles[1].Velocity.copyVector().add( impulsePerInverseMass.multiplyBy(-this.Particles[1].InverseMass));
+        // }
     }
 }
