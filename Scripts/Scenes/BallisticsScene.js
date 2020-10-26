@@ -21,22 +21,28 @@ export default class BallisticScene extends Scene{
     }
 
     Step(){
+        
+        //console.time("Time per Scene Update");
+
         super.Step();
         if(Input.Key == Input.KeyKode.C){
             //this.spawnBullet(BallisticScene.BulletTypes.Pistol);
         }
+        
+        //console.timeEnd();
     }
 
     BuildScene(){
         // this.spawnBullet(BallisticScene.BulletTypes.Pistol);
 
+
         this.spawnCube(new Vector3(10,70,20), new Vector3(-3,0,0));
         this.spawnCube(new Vector3(50,30,20),new Vector3(1,10,10));
         this.spawnCube(new Vector3(30,40,20),new Vector3(2,-10,-5));
-        this.spawnCube(new Vector3(20,30,50));
-        this.spawnCube(new Vector3(60,30,10));
-        this.spawnCube(new Vector3(10,60,20));
-        this.spawnCube(new Vector3(-40,30,20));
+        this.spawnCube(new Vector3(20,30,50),new Vector3(2,-10,5));
+        // this.spawnCube(new Vector3(60,30,10));
+        // this.spawnCube(new Vector3(10,60,20));
+        // this.spawnCube(new Vector3(-40,30,20));
 
 
         //Spawn plane

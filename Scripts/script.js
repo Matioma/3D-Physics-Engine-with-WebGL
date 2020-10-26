@@ -15,16 +15,16 @@ function Setup(){
     currentScene = new BallisticScene();
 }
 function Update(){
+   
+
+
     if(Input.Key == Input.KeyKode.R){
         currentScene.RestartScene();
     }
-
-    
-   
     currentScene.Update();
     Input.key = undefined;
     Time.UpdateDeltaTime();
-    
+
     requestAnimationFrame(Update);
 }
 requestAnimationFrame(Update);

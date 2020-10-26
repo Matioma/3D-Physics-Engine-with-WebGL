@@ -36,7 +36,7 @@ export default class Scene{
     RestartScene(){
         this._SceneObject = [];
         ParticleForceRegistry.Instance.clear();
-        this.CollsionResolver.clear();
+        //this.CollsionResolver.clear();
         this.BuildScene();
         this.CollsionResolver = new CollsionResolver(this);
     }
@@ -63,11 +63,10 @@ export default class Scene{
 
         let plane =new GameObject();
         plane.AddComponent("meshData",new MeshData(new Shapes.Plane()));
-        plane.transform.position = new Vector3(-2.0,-10.0, -5);
+        plane.transform.position = new Vector3(-0,-10.0, -0);
         
         plane.transform.scale(50,1,50);
 
-        // newGameObject.transform.scale =new Vector3(2,2,2);
         this.AddObject(this._SceneObject,plane);
     }
 

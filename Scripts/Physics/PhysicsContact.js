@@ -1,3 +1,5 @@
+'use strict';
+
 import Vector3 from "../Math/Vector3.js" 
 import RigidBody from "../Components/RigidBody.js"
 
@@ -70,15 +72,23 @@ export default class PhysicsContact{
             return;
         }
 
-
         let newVelocity =  this.Particles[0].Velocity.copyVector();
-        newVelocity.y *= -1.0;
+        
+        if(this.CollisionNormal.x != 0){
+            newVelocity.x *= -1.0;
+        }
+        if(this.CollisionNormal.y != 0){
+            newVelocity.y *= -1.0;
+        }
+        if(this.CollisionNormal.z != 0){
+            newVelocity.z *= -1.0;
+        }
+
+        
+       // newVelocity.y *= -1.0;
         newVelocity.multiply(this.Particles[0].Restitution);
         
         this.Particles[0].Velocity = newVelocity.copyVector();
-
-       
-
 
         let newSeparatingVelocity = separatingVelocity.multiplyBy(-1).multiplyBy(this.Restitution);
 
