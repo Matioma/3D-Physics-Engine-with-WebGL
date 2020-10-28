@@ -34,6 +34,8 @@ window.addEventListener("keydown", function (event) {
     if (event.defaultPrevented) {
       return; // Do nothing if the event was already processed
     }
+
+   // console.log(event.key);
     switch (event.key) {
         case "ArrowDown":
             Input.Key = Input.KeyKode.KeyDown;

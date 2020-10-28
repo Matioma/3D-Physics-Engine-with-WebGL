@@ -23,7 +23,7 @@ export default class PhysicsContact{
         if(Restiution){
             this.Restitution = Restiution;
         }else{
-            this.Restitution = 1;
+            this.Restitution = 0.95;
         }
 
         this.penetration = 0;
@@ -50,23 +50,24 @@ export default class PhysicsContact{
         let totalInverseMass = this.Particles[0].InverseMass;
         if(this.Particles[1]) totalInverseMass.add(this.Particles[1].InverseMass);
 
-        if(totalInverseMass<=0) return; 
+        // if(totalInverseMass<=0) return; 
 
 
 
-        //console.log(this.CollisionNormal.multiplyBy(this.penetration/totalInverseMass));
         let movePerInverseMass = this.CollisionNormal.multiplyBy(this.penetration/totalInverseMass);
         
-        //console.log(movePerInverseMass.multiplyBy(this.Particles[0].InverseMass));
+        //this.Particles[0].owner.transform.position.add(this.CollisionNormal.multiplyBy(this.penetration));
 
         this.Particles[0].owner.transform.position.add(movePerInverseMass.multiplyBy(this.Particles[0].InverseMass));
 
-        if(this.Particles[1]){
-            this.Particles[1].owner.transform.add(movePerInverseMass * this.Particles[1].InverseMass);
-        }
+        // if(this.Particles[1]){
+        //     this.Particles[1].owner.transform.add(movePerInverseMass * this.Particles[1].InverseMass);
+        // }
     }
 
     resolveVelocity(deltaTime){
+
+        
         let separatingVelocity = this.SeparatingVelocity;
         if(separatingVelocity>0){
             return;
@@ -74,6 +75,8 @@ export default class PhysicsContact{
 
         let newVelocity =  this.Particles[0].Velocity.copyVector();
         
+        //newVelocity.multiply(-1);
+
         if(this.CollisionNormal.x != 0){
             newVelocity.x *= -1.0;
         }
@@ -85,12 +88,14 @@ export default class PhysicsContact{
         }
 
         
-       // newVelocity.y *= -1.0;
+      //  console.log("------------------");
+//console.log(newVelocity.length());
         newVelocity.multiply(this.Particles[0].Restitution);
-        
+       // console.log(newVelocity.length());
         this.Particles[0].Velocity = newVelocity.copyVector();
 
-        let newSeparatingVelocity = separatingVelocity.multiplyBy(-1).multiplyBy(this.Restitution);
+
+       // let newSeparatingVelocity = separatingVelocity.multiplyBy(-1).multiplyBy(this.Restitution);
 
 
 

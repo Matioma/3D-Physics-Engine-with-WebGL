@@ -81,25 +81,29 @@ export default class RigidBody extends Component{
 
 
     Step(){
-        //console.log("Veclcity " +this.Velocity);
-
-
         this.Integrate(Time.deltaTime);
         this.resetComulativeForce();
-
-      
     }
 
     //INtegrates position, velocity and acceleration
     Integrate(delta){
         this.acceleration.set(0,0,0);
 
+
+        // if(this.Velocity.y<0)
+        //     console.log("---------- Velocity from Rigid Body ----------")
         //Move the object
         this.owner.transform.position.add(this.Velocity.multiplyBy(delta)); 
+        
+        // if(this.Velocity.y<0)
+        // console.log(this.Velocity.length());
 
         //Get the acceleration change from forces applied
         let accelerationFromForces = this._forceComulative.multiplyBy(this.InverseMass); 
         this.acceleration.add(accelerationFromForces.multiplyBy(delta));
+
+       // console.log(accelerationFromForces.multiplyBy(delta));
+        //this.acceleration.add(new Vector3(0,-0.5,0));
 
         //console.log(accelerationFromForces);
 
@@ -114,7 +118,8 @@ export default class RigidBody extends Component{
         //this._velocity.multiply(Math.pow(this.dumping,delta));
         this.Velocity.multiply(this.dumping);
        
-
+        // if(this.Velocity.y<0)
+        //     console.log(this.Velocity.length());
         //console.log(this.Velocity);
         // console.log(this.Velocity);
 

@@ -11,10 +11,13 @@ export default class Input{
         "Shift":9, 
         "Space":10, "Q":11, "E":12, "R":13, "C":14});    
 
-    static set Key(data){ 
+    static set Key(data){
+        
         Input.key = data; 
     } 
     static get Key(){ 
+
+
         return Input.key; 
     } 
 }

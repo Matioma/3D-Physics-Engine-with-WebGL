@@ -69,6 +69,12 @@ export default class Vector3{
         return newVector;
     }
 
+    scale(x,y,z){
+        this.x *=x;
+        this.y *= y;
+        this.z *= z;
+    }
+
     copyVector(){
         let newVector = new Vector3(this.x, this.y, this.z);
         return newVector;

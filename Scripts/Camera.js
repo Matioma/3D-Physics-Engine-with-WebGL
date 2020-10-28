@@ -9,6 +9,7 @@ export default class Camera extends GameObject{
     }
 
     Step(){
+        
         if(Input.Key === Input.KeyKode.A){
             this.transform.position.add(this.transform.Right.multiplyBy(-this.speed));
         }
