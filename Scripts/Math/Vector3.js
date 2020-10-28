@@ -77,7 +77,7 @@ export default class Vector3{
     }
 
     dot(vector){
-        return this.x*vector.x + this.y+vector.y + this.z + vector.z;
+        return this.x*vector.x + this.y+vector.y + this.z +vector.z;
     }
 
     scale(x,y,z){
@@ -85,6 +85,18 @@ export default class Vector3{
         this.y *= y;
         this.z *= z;
     }
+
+
+    // rotate(x,y,z){
+    //     let xRadians = 1/180 * x;
+    //     let yRadians = 1/180 * y;
+    //     let zRadians = 1/180 * z;
+
+    //     this.x = 
+
+
+
+    // }
 
     copyVector(){
         let newVector = new Vector3(this.x, this.y, this.z);

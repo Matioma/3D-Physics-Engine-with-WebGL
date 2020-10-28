@@ -33,8 +33,9 @@ export default class PhysicsContact{
 
 
     Resolve(deltaTime){
-        this.resolveVelocity(deltaTime);
         this.resolveInterPenetration(deltaTime);
+        this.resolveVelocity(deltaTime);
+        
     }
 
     get SeparatingVelocity(){
@@ -47,22 +48,23 @@ export default class PhysicsContact{
     resolveInterPenetration(delta){
         if(this.penetration<=0) return;
 
-        let totalInverseMass = this.Particles[0].InverseMass;
-        if(this.Particles[1]) totalInverseMass.add(this.Particles[1].InverseMass);
+        // let totalInverseMass = this.Particles[0].InverseMass;
+        // if(this.Particles[1]) totalInverseMass.add(this.Particles[1].InverseMass);
 
         // if(totalInverseMass<=0) return; 
 
 
 
-        let movePerInverseMass = this.CollisionNormal.multiplyBy(this.penetration/totalInverseMass);
+        //let movePerInverseMass = this.CollisionNormal.multiplyBy(this.penetration/totalInverseMass);
         
         //this.Particles[0].owner.transform.position.add(this.CollisionNormal.multiplyBy(this.penetration));
+        //console.log(this.penetration);
 
-        this.Particles[0].owner.transform.position.add(movePerInverseMass.multiplyBy(this.Particles[0].InverseMass));
+        this.Particles[0].owner.transform.position.add(this.CollisionNormal.multiplyBy(this.penetration));
 
-        // if(this.Particles[1]){
-        //     this.Particles[1].owner.transform.add(movePerInverseMass * this.Particles[1].InverseMass);
-        // }
+        if(this.Particles[1]){
+            this.Particles[1].owner.transform.add(this.CollisionNormal.multiplyBy(-this.penetration));
+        }
     }
 
     resolveVelocity(deltaTime){
@@ -73,19 +75,29 @@ export default class PhysicsContact{
             return;
         }
 
-        let newVelocity =  this.Particles[0].Velocity.copyVector();
-        
-        newVelocity.multiply(-1);
+        let newVelocity1 =  this.Particles[0].Velocity.copyVector();
+     
 
-        // if(this.CollisionNormal.x != 0){
-        //     newVelocity.x *= -1.0;
-        // }
-        // if(this.CollisionNormal.y != 0){
-        //     newVelocity.y *= -1.0;
-        // }
-        // if(this.CollisionNormal.z != 0){
-        //     newVelocity.z *= -1.0;
-        // }
+        
+       // newVelocity.multiply(-1);
+
+        if(this.CollisionNormal.x != 0){
+            newVelocity1.x *= -1.0;
+        }
+        if(this.CollisionNormal.y != 0){
+            newVelocity1.y *= -1.0;
+        }
+        if(this.CollisionNormal.z != 0){
+            newVelocity1.z *= -1.0;
+        }
+
+        let speedTowardsFace =-this.Particles[0].Velocity.dot(this.CollisionNormal);
+
+        //console.log(2*speedTowardsFace);
+
+        this.Particles[0].Velocity.add(this.CollisionNormal.multiplyBy(2*speedTowardsFace*0.9));
+
+
 
         
       //  console.log("------------------");
@@ -94,13 +106,24 @@ export default class PhysicsContact{
        // console.log(newVelocity.length());
 
 
-       this.Particles[0].Velocity.multiply(-1);
+       //this.Particles[0].Velocity =newVelocity1.multiplyBy(0.9);
 
-       // this.Particles[0].Velocity = newVelocity.copyVector();
+        this.Particles[0].Velocity = newVelocity1.copyVector();
 
         if(this.Particles[1]){
-            this.Particles[1].Velocity.multiply(-1);
+            let newVelocity2 =  this.Particles[1].Velocity.copyVector();
+            if(this.CollisionNormal.x != 0){
+                newVelocity2.x *= -1.0;
+            }
+            if(this.CollisionNormal.y != 0){
+                newVelocity2.y *= -1.0;
+            }
+            if(this.CollisionNormal.z != 0){
+                newVelocity2.z *= -1.0;
+            }
 
+            //this.Particles[1].Velocity.multiply(-1);
+            this.Particles[1].Velocity =newVelocity2;
         }
 
        // let newSeparatingVelocity = separatingVelocity.multiplyBy(-1).multiplyBy(this.Restitution);

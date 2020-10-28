@@ -1,6 +1,7 @@
 import Vector3 from "./Math/Vector3.js";
 import Transform from "./Components/Transform.js";
 import Component from "./Components/Component.js";
+import CollisionResolver from "./Physics/CollsionResolver.js";
 
 export default class GameObject {
     constructor(){
@@ -43,6 +44,10 @@ export default class GameObject {
         components.forEach(element => {
             this._components[element].Step();
         });
+
+       // CollisionResolver.Instance.step(this);
+
+        //console.log(CollisionResolver.Instance);
     }
     
 }

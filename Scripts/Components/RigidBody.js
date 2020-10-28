@@ -35,12 +35,10 @@ export default class RigidBody extends Component{
     }
 
     get Velocity(){
-        //console.error( this._velocity);
         return this._velocity;
     }
 
     set Velocity(value){
-        //console.error(value);
         this._velocity.set(value.x,value.y,value.z); 
     }
 
@@ -75,9 +73,6 @@ export default class RigidBody extends Component{
     resetComulativeForce(){
         this._forceComulative = new Vector3(0,0,0);
     }
-
-
-
 
 
     Step(){

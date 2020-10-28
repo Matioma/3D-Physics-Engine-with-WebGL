@@ -17,7 +17,7 @@ export default class BallisticScene extends Scene{
         super();
 
 
-        this._Camera.transform.position = new Vector3(0,20,200);
+        this._Camera.transform.position = new Vector3(0,40,200);
     }
 
     Step(){
@@ -35,23 +35,21 @@ export default class BallisticScene extends Scene{
     BuildScene(){
         // this.spawnBullet(BallisticScene.BulletTypes.Pistol);
 
-
-        // this.spawnCube(new Vector3(10,70,20), new Vector3(-3,0,0));
-        // this.spawnCube(new Vector3(50,30,20),new Vector3(1,10,10));
-        // this.spawnCube(new Vector3(30,40,20),new Vector3(2,-10,-5));
-        // this.spawnCube(new Vector3(20,30,50),new Vector3(2,-10,5));
-        // this.spawnCube(new Vector3(60,30,10));
-        // this.spawnCube(new Vector3(10,60,20));
-
-
-        for(let i =0; i<5; i++){
+        for(let i =0; i<1; i++){
             let x= Math.random()*100 -50;
             let z= Math.random()*100 -50;
-            let y= Math.random()*50 ;
+            let y= Math.random()*50 +1 ;
+
+            // x =10;
+            // z =20;
 
             let dx= Math.random()*10 -5;
             let dz= Math.random()*10 -5;
             let dy= Math.random()*10 -5;
+
+            // dx =0;
+            // dz =0;
+
 
             this.spawnCube(new Vector3(x,y,z), new Vector3(dx,dy,dz));
         }
@@ -59,24 +57,55 @@ export default class BallisticScene extends Scene{
 
 
 
-        // this.spawnCube(new Vector3(-40,30,20));
-        // this.spawnCube(new Vector3(-40,30,20));
-        // this.spawnCube(new Vector3(-40,30,20));
-        // this.spawnCube(new Vector3(-40,30,20));
-        // this.spawnCube(new Vector3(-40,30,20));
-        // this.spawnCube(new Vector3(-40,30,20));
-
 
         //Spawn plane
         let newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Plane()));
-        newGameObject.transform.position = new Vector3(-2.0,-3, -5);
-
-        this.spawnCube( new Vector3(-2.0,-3, -5));
-        
+        newGameObject.transform.position = new Vector3(0,0,0);
         newGameObject.transform.scale(100,1,100);
-
         this.AddObject(this._SceneObject,newGameObject);
+
+
+        {
+            let newGameObject =new GameObject();
+            var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+            newGameObject.transform.position = new Vector3(0,100,-100.5);
+            newGameObject.transform.scale(100,100,2); 
+            this.AddObject(this._SceneObject,newGameObject);
+        }
+        {
+            let newGameObject =new GameObject();
+            var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+            newGameObject.transform.position = new Vector3(-100.0,100,0);
+            newGameObject.transform.scale(3,100,100); 
+            this.AddObject(this._SceneObject,newGameObject);
+        }
+
+        {
+            let newGameObject =new GameObject();
+            var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+            MeshDataComponent.isVisible =false;
+            newGameObject.transform.position = new Vector3(100.0,100,0);
+            newGameObject.transform.scale(3,100,100); 
+            this.AddObject(this._SceneObject,newGameObject);
+        }
+        {
+            let newGameObject =new GameObject();
+            var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+            MeshDataComponent.isVisible =false;
+            newGameObject.transform.position = new Vector3(0,50,100.0);
+            newGameObject.transform.scale(100,100,3); 
+            this.AddObject(this._SceneObject,newGameObject);
+        }
+        // {
+        //     let newGameObject =new GameObject();
+        //     var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+        //     newGameObject.transform.position = new Vector3(0,50,-100);
+        //     newGameObject.transform.scale(100,100,1); 
+        //     this.AddObject(this._SceneObject,newGameObject);
+        // }
+      
+       
     }
 
     spawnCube(position, velocity){
@@ -84,7 +113,11 @@ export default class BallisticScene extends Scene{
         var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
         var rigidBody =newGameObject.AddComponent("RigidBody", new RigidBody());
 
+
+
         rigidBody.dumping = 0.999;
+            // rigidBody.dumping = Math.random();
+        
         rigidBody.Restitution = 0.9;
         rigidBody.Mass= 1.0;
 

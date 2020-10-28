@@ -53,7 +53,14 @@ export default class Renderer{
         }
         for(let i=0; i<scene.SceneObjects.length;i++){
             const transform = scene.SceneObjects[i].transform;
-            const buffers = this.bufferData(scene.SceneObjects[i].GetComponent("meshData"));
+            const meshData =scene.SceneObjects[i].GetComponent("meshData");
+
+            if(!meshData.isVisible){
+                continue;
+            }
+
+            const buffers = this.bufferData(meshData);
+
 
             this.drawMesh(this.gl,this.programInfo,buffers,transform);
         }

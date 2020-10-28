@@ -5,9 +5,13 @@ import Time from "../Time.js";
 import PhysicsContact from "./PhysicsContact.js"
 
 export default class CollisionResolver{
+    static _instance;
+
+
     constructor(scene){
         this.GameObjects =scene.SceneObjects;
-        
+        CollisionResolver._instance = this;
+
         this.RigidBodies =[];
         for(let i =0 ;i< this.GameObjects.length; i++){
             if(this.GameObjects[i].GetComponent("RigidBody")){
@@ -19,6 +23,13 @@ export default class CollisionResolver{
     
     }
 
+    static get Instance(){
+        if(CollisionResolver._instance ==null){
+            CollisionResolver._instance = CollisionResolver.createIntance();
+        }
+        return CollisionResolver._instance;
+    }
+
     clear(){
         this.GameObjects =[];
         this.RigidBodies =[];
@@ -27,67 +38,43 @@ export default class CollisionResolver{
     
     update(){
         this.registerCollisions();
+        //console.log("WTF")
         this.resolveCollisions();
         this.Collsions.length =0;
     }
 
+    // step(GameObject){
+    //     this.registerCollisionWithObject(GameObject);
+    //     this.resolveCollisions();
+    //     this.Collsions.length =0;
+    // }
+
+    // registerCollisionWithObject(GameObject){
+    //     for( let i=0; i< this.GameObjects.length; i++){
+            
+    //         //if(this.GameObjects[i] === GameObject) continue;
+
+    //         console.log("tester message");
+    //         let collision = this.CheckCollision(GameObject, this.GameObjects[i]);
+    //         console.log(collision);
+    //         if(collision){
+    //             this.Collsions.push(collision);
+    //         }
+    //     }
+
+       
+        
+    // }
+
     registerCollisions(){
         for( let i=0; i< this.GameObjects.length-1; i++){
             for(let j = i+1;j< this.GameObjects.length; j++){
-                // if(!this.GameObjects[i].GetComponent("RigidBody") || !this.GameObjects[j].GetComponent("RigidBody")){
-                //     console.log("One of gameObjects has no")
-
-                // }
-
-
                 let collision = this.CheckCollision(this.GameObjects[i], this.GameObjects[j]);
                 if(collision){
                     this.Collsions.push(collision);
                 }
             }
         }
-
-
-        // for( let i=0; i< this.RigidBodies.length; i++){
-        //     if(this.RigidBodies[i].owner.transform.position.y<0){
-        //         let physicsContact  = new PhysicsContact(this.RigidBodies[i]);
-        //         physicsContact.penetration = this.RigidBodies[i].owner.transform.position.y;
-        //         physicsContact.CollisionNormal = new Vector3(0,1,0);
-        //         this.Collsions.push(physicsContact);
-        //     }
-        //     else if(this.RigidBodies[i].owner.transform.position.y>100){
-        //         let physicsContact  = new PhysicsContact(this.RigidBodies[i]);
-        //         physicsContact.penetration = this.RigidBodies[i].owner.transform.position.y - 100;
-        //         physicsContact.CollisionNormal = new Vector3(0,-1,0);
-        //         this.Collsions.push(physicsContact);
-        //     }
-
-
-        //     if(this.RigidBodies[i].owner.transform.position.x>50){
-        //         let physicsContact  = new PhysicsContact(this.RigidBodies[i]);
-        //         physicsContact.penetration = this.RigidBodies[i].owner.transform.position.x - 50;
-        //         physicsContact.CollisionNormal = new Vector3(-1,0,0);
-        //         this.Collsions.push(physicsContact);
-        //     }
-        //     if(this.RigidBodies[i].owner.transform.position.x<-50){
-        //         let physicsContact  = new PhysicsContact(this.RigidBodies[i]);
-        //         physicsContact.penetration = -this.RigidBodies[i].owner.transform.position.x -50;
-        //         physicsContact.CollisionNormal = new Vector3(1,0,0);
-        //         this.Collsions.push(physicsContact);
-        //     }
-        //     if(this.RigidBodies[i].owner.transform.position.z<-50){
-        //         let physicsContact  = new PhysicsContact(this.RigidBodies[i]);
-        //         physicsContact.penetration = -this.RigidBodies[i].owner.transform.position.z -50;
-        //         physicsContact.CollisionNormal = new Vector3(0,0,1);
-        //         this.Collsions.push(physicsContact);
-        //     }
-        //     if(this.RigidBodies[i].owner.transform.position.z>50){
-        //         let physicsContact  = new PhysicsContact(this.RigidBodies[i]);
-        //         physicsContact.penetration = this.RigidBodies[i].owner.transform.position.z -50;
-        //         physicsContact.CollisionNormal = new Vector3(0,0,-1);
-        //         this.Collsions.push(physicsContact);
-        //     }
-        // }
     }
 
     resolveCollisions(){
@@ -106,11 +93,13 @@ export default class CollisionResolver{
         }
                 
         let vertices1 =  this.GetGlobalMeshData(meshData1);
+        let normals1 =this.ConverVector3Array(meshData1._shape.VertexNormals);
+        //console.log(normals1,vertices1);
+
+
         let vertices2 = this.GetGlobalMeshData(meshData2);
+        let normals2 =this.ConverVector3Array(meshData2._shape.VertexNormals);
 
-
-        // let yVector1 = new Vector3(0,gameObject1.transform.position.y,0);
-        // let yVector2 = new Vector3(0, gameObject2.transform.position.y,0);
 
         let boxExtents1 = this.GetBoxExtents(vertices1);
         let boxExtents2 = this.GetBoxExtents(vertices2);
@@ -119,40 +108,72 @@ export default class CollisionResolver{
                     (boxExtents1.YAxis.minY < boxExtents2.YAxis.maxY && boxExtents1.YAxis.maxY >= boxExtents2.YAxis.minY)&&                                                               
                     (boxExtents1.ZAxis.minZ < boxExtents2.ZAxis.maxZ && boxExtents1.ZAxis.maxZ >= boxExtents2.ZAxis.minZ);
 
-
-        //let ProjectionAxis = yVector1.subtractby(yVector2);
-
-
-        // let ProjectionAxis = gameObject1.transform.position.subtractby(gameObject2.transform.position);
-
-        // ProjectionAxis = gameObject1.transform.position.subtractby(gameObject2.transform.position);
-
-        // let maxProjection = this.GetMinProjections(ProjectionAxis,vertices1,gameObject1.transform.position);
-        // let minProjection = this.GetMaxProjections(ProjectionAxis,vertices2,gameObject2.transform.position);
-
-
-        // let areOverlapping = (ProjectionAxis.length()- (minProjection) - maxProjection) <0;
-
-        // console.log((ProjectionAxis.length()- (minProjection) - maxProjection));
-        console.log(overlap);
-
         if(!overlap){
+            
             return;
         }
+
+        //console.log("Collision", gameObject1, gameObject2);
+
+        
       
 
+      
         let rigidBody1 =gameObject1.GetComponent("RigidBody");
-        let rigidBody2 =gameObject2.GetComponent("RigidBody");
-        // if(rigidBody1)
-        //     let physicsContact  = new PhysicsContact();
+        let rigidBody2;
+
+        if(!rigidBody1){
+            rigidBody1 =gameObject2.GetComponent("RigidBody");
+        }
+        else{
+            rigidBody2 = gameObject2.GetComponent("RigidBody");
+        }
+
+
+        if(!rigidBody1){
+            return;
+        }
+
+
+
+        let biggestCollision = { 
+            collisionNormal: new Vector3(0,1,0),
+            dotProduct:0,
+        }
+        
+        //Get CollisionNormal
+        for( let i=0; i< vertices1.length; i++){
+            if(rigidBody1.Velocity.dot(normals1[i])>=0){
+                continue;
+            }
+
+            for(let j=0; j<vertices2.length;j++){
+                if(rigidBody1.Velocity.dot(normals2[j])>=0){
+                    continue
+                }
+
+                let dotProduct =vertices1[i].subtractby(vertices2[j]).dot(normals2[j]);
+                if(dotProduct>0){
+                    if(dotProduct>biggestCollision.dotProduct){
+                        biggestCollision.dotProduct = dotProduct;
+                        biggestCollision.collisionNormal = normals2[j]
+                    }
+                }
+
+            }
+        }
+
+        console.log(biggestCollision.collisionNormal);
+
 
         let physicsContact = new PhysicsContact(rigidBody1,rigidBody2);
+
+        //console.log(physicsContact);
+        //console.log(rigidBody1, rigidBody2);
+        physicsContact.CollisionNormal = biggestCollision.collisionNormal;    
+        physicsContact.penetration =-biggestCollision.dotProduct;
         return physicsContact;
-
-
-
     }
-
 
     GetGlobalMeshData(meshData){
         if(!meshData instanceof MeshData){
@@ -187,6 +208,44 @@ export default class CollisionResolver{
 
         return vector3Array;
     }
+
+    ConverVector3Array(array){
+        let vector3Array = [];
+
+        for(let i=0; i< array.length/3; i++){
+            let startIndex = i*3;
+
+            let x = array[startIndex];
+            let y = array[startIndex+1];
+            let z = array[startIndex+2];
+
+            vector3Array.push(new Vector3(x,y,z));
+        }
+        return vector3Array;
+    }
+
+
+    GetShapePlanes(shape){
+        let vertices = this.ConverVector3Array(shape.VertexPositions);
+
+        let Planes = [];
+
+        for(let i=0; i< vertices.length/4; i++){
+            let startVertex = i*4;
+            
+            Planes.push({
+                point1: vertices[startVertex],
+                point2: vertices[startVertex+1],
+                point3: vertices[startVertex+2],
+                point4: vertices[startVertex+3]
+            })
+        }
+
+
+        return Planes;
+    }
+
+
 
 
     GetMinProjections(axis, vertices, position){
@@ -268,8 +327,6 @@ export default class CollisionResolver{
                 maxZ = vertices[i].z;
             }
         }
-
-
         let result ={
             XAxis : 
                 {
@@ -287,9 +344,6 @@ export default class CollisionResolver{
                     maxZ :maxZ
                 }
         }
-
-        //console.log(result);
-
         return result;
     }
 }

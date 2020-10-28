@@ -36,7 +36,7 @@ export default class Scene{
     RestartScene(){
         this._SceneObject = [];
         ParticleForceRegistry.Instance.clear();
-        //this.CollsionResolver.clear();
+        this.CollsionResolver.clear();
         this.BuildScene();
         this.CollsionResolver = new CollsionResolver(this);
     }
