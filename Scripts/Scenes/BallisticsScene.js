@@ -44,7 +44,7 @@ export default class BallisticScene extends Scene{
         // this.spawnCube(new Vector3(10,60,20));
 
 
-        for(let i =0; i<1; i++){
+        for(let i =0; i<5; i++){
             let x= Math.random()*100 -50;
             let z= Math.random()*100 -50;
             let y= Math.random()*50 ;
@@ -52,7 +52,6 @@ export default class BallisticScene extends Scene{
             let dx= Math.random()*10 -5;
             let dz= Math.random()*10 -5;
             let dy= Math.random()*10 -5;
-
 
             this.spawnCube(new Vector3(x,y,z), new Vector3(dx,dy,dz));
         }
@@ -72,6 +71,8 @@ export default class BallisticScene extends Scene{
         let newGameObject =new GameObject();
         newGameObject.AddComponent("meshData",new MeshData(new Shapes.Plane()));
         newGameObject.transform.position = new Vector3(-2.0,-3, -5);
+
+        this.spawnCube( new Vector3(-2.0,-3, -5));
         
         newGameObject.transform.scale(100,1,100);
 

@@ -6,6 +6,7 @@ export default class GravityForceGenerator extends ParticleForceGenerator{
     constructor(){
         super();
         this.gravity = new Vector3(0,-5.0,0);
+        //this.gravity = new Vector3(0,0,0);
     }
     updateForce(rigidBody, deltaTime){
         if(!rigidBody instanceof RigidBody){

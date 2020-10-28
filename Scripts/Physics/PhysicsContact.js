@@ -75,25 +75,33 @@ export default class PhysicsContact{
 
         let newVelocity =  this.Particles[0].Velocity.copyVector();
         
-        //newVelocity.multiply(-1);
+        newVelocity.multiply(-1);
 
-        if(this.CollisionNormal.x != 0){
-            newVelocity.x *= -1.0;
-        }
-        if(this.CollisionNormal.y != 0){
-            newVelocity.y *= -1.0;
-        }
-        if(this.CollisionNormal.z != 0){
-            newVelocity.z *= -1.0;
-        }
+        // if(this.CollisionNormal.x != 0){
+        //     newVelocity.x *= -1.0;
+        // }
+        // if(this.CollisionNormal.y != 0){
+        //     newVelocity.y *= -1.0;
+        // }
+        // if(this.CollisionNormal.z != 0){
+        //     newVelocity.z *= -1.0;
+        // }
 
         
       //  console.log("------------------");
 //console.log(newVelocity.length());
-        newVelocity.multiply(this.Particles[0].Restitution);
+       // newVelocity.multiply(this.Particles[0].Restitution);
        // console.log(newVelocity.length());
-        this.Particles[0].Velocity = newVelocity.copyVector();
 
+
+       this.Particles[0].Velocity.multiply(-1);
+
+       // this.Particles[0].Velocity = newVelocity.copyVector();
+
+        if(this.Particles[1]){
+            this.Particles[1].Velocity.multiply(-1);
+
+        }
 
        // let newSeparatingVelocity = separatingVelocity.multiplyBy(-1).multiplyBy(this.Restitution);
 

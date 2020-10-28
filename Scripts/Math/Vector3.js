@@ -42,6 +42,13 @@ export default class Vector3{
         this.add(-newVector.x, -newVector.y,-newVector.z);
     }
 
+    subtractby(newVector){
+        let vec3 = this.copyVector();
+        vec3.subtract(newVector);
+
+        return vec3;
+    }
+
     multiply(value){
         this.x *=value;
         this.y *= value;
@@ -67,6 +74,10 @@ export default class Vector3{
         let newVector = new Vector3(this.x, this.y, this.z);
         newVector.normalize();
         return newVector;
+    }
+
+    dot(vector){
+        return this.x*vector.x + this.y+vector.y + this.z + vector.z;
     }
 
     scale(x,y,z){
