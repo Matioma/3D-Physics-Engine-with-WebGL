@@ -9,6 +9,12 @@ import Vector3 from "./Math/Vector3.js";
 
 let currentScene;
 
+let v1 = new Vector3(1,0,0);
+let v2 = new Vector3(10,10,0);
+
+console.log(v2.dot(v1));
+
+
 Setup();
 function Setup(){
     //currentScene = new Scene();

@@ -137,33 +137,44 @@ export default class CollisionResolver{
 
 
         let biggestCollision = { 
-            collisionNormal: new Vector3(0,1,0),
-            dotProduct:0,
+            collisionNormal: new Vector3(0,0,0),
+            dotProduct:-Number.MIN_VALUE,
         }
         
         //Get CollisionNormal
         for( let i=0; i< vertices1.length; i++){
-            if(rigidBody1.Velocity.dot(normals1[i])>=0){
-                continue;
-            }
+            // if(rigidBody1.Velocity.dot(normals1[i])>=0){
+            //     continue;
+            // }
 
             for(let j=0; j<vertices2.length;j++){
-                if(rigidBody1.Velocity.dot(normals2[j])>=0){
-                    continue
-                }
+                // if(rigidBody1.Velocity.dot(normals2[j])>=0){
+                //     continue;
+                // }
 
-                let dotProduct =vertices1[i].subtractby(vertices2[j]).dot(normals2[j]);
+                let vectorDifference =vertices1[i].subtractby(vertices2[j]);
+                
+
+
+                let dotProduct =vectorDifference.dot(normals2[j]);
+                console.log([vectorDifference.length(),dotProduct]);
+                //console.log()
                 if(dotProduct>0){
                     if(dotProduct>biggestCollision.dotProduct){
                         biggestCollision.dotProduct = dotProduct;
-                        biggestCollision.collisionNormal = normals2[j]
-                    }
-                }
+                        biggestCollision.collisionNormal = normals2[j];
 
+
+                        //console.log(normals2[j]);
+                      
+                    }
+                    
+                }
             }
         }
 
         console.log(biggestCollision.collisionNormal);
+        
 
 
         let physicsContact = new PhysicsContact(rigidBody1,rigidBody2);
@@ -171,6 +182,8 @@ export default class CollisionResolver{
         //console.log(physicsContact);
         //console.log(rigidBody1, rigidBody2);
         physicsContact.CollisionNormal = biggestCollision.collisionNormal;    
+
+        console.log(-biggestCollision.dotProduct);
         physicsContact.penetration =-biggestCollision.dotProduct;
         return physicsContact;
     }

@@ -77,7 +77,7 @@ export default class Vector3{
     }
 
     dot(vector){
-        return this.x*vector.x + this.y+vector.y + this.z +vector.z;
+        return this.x*vector.x + this.y+vector.y + this.z*vector.z;
     }
 
     scale(x,y,z){

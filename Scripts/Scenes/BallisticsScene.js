@@ -35,20 +35,20 @@ export default class BallisticScene extends Scene{
     BuildScene(){
         // this.spawnBullet(BallisticScene.BulletTypes.Pistol);
 
-        for(let i =0; i<1; i++){
+        for(let i =0; i<2; i++){
             let x= Math.random()*100 -50;
             let z= Math.random()*100 -50;
             let y= Math.random()*50 +1 ;
 
-            // x =10;
-            // z =20;
+            x =10;
+            z =20;
 
-            let dx= Math.random()*10 -5;
-            let dz= Math.random()*10 -5;
-            let dy= Math.random()*10 -5;
+            let dx= Math.random()*6 -3;
+            let dz= Math.random()*6 -3;
+            let dy= Math.random()*6 -3;
 
-            // dx =0;
-            // dz =0;
+             dx =0;
+             dz =0;
 
 
             this.spawnCube(new Vector3(x,y,z), new Vector3(dx,dy,dz));
@@ -97,6 +97,17 @@ export default class BallisticScene extends Scene{
             newGameObject.transform.scale(100,100,3); 
             this.AddObject(this._SceneObject,newGameObject);
         }
+        {
+            let newGameObject =new GameObject();
+            var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
+            MeshDataComponent.isVisible =true;
+            newGameObject.transform.position = new Vector3(0,200,0);
+            newGameObject.transform.scale(100,3,100); 
+            this.AddObject(this._SceneObject,newGameObject);
+    
+
+        }
+     
         // {
         //     let newGameObject =new GameObject();
         //     var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));

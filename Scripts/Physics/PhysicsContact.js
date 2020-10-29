@@ -63,7 +63,7 @@ export default class PhysicsContact{
         this.Particles[0].owner.transform.position.add(this.CollisionNormal.multiplyBy(this.penetration));
 
         if(this.Particles[1]){
-            this.Particles[1].owner.transform.add(this.CollisionNormal.multiplyBy(-this.penetration));
+            this.Particles[1].owner.transform.position.add(this.CollisionNormal.multiplyBy(-this.penetration));
         }
     }
 
@@ -92,11 +92,13 @@ export default class PhysicsContact{
         }
 
         let speedTowardsFace =-this.Particles[0].Velocity.dot(this.CollisionNormal);
+        let relfectVector =this.CollisionNormal.multiplyBy(2*speedTowardsFace);
+        this.Particles[0].Velocity.add(relfectVector);
+        this.Particles[0].Velocity.multiply(0.9);
 
-        //console.log(2*speedTowardsFace);
-
-        this.Particles[0].Velocity.add(this.CollisionNormal.multiplyBy(2*speedTowardsFace*0.9));
-
+        //console.log(this.Particles[0].Velocity);
+        //console.log(this.CollisionNormal.multiplyBy(2*speedTowardsFace));
+       
 
 
         
@@ -111,19 +113,16 @@ export default class PhysicsContact{
         this.Particles[0].Velocity = newVelocity1.copyVector();
 
         if(this.Particles[1]){
-            let newVelocity2 =  this.Particles[1].Velocity.copyVector();
-            if(this.CollisionNormal.x != 0){
-                newVelocity2.x *= -1.0;
-            }
-            if(this.CollisionNormal.y != 0){
-                newVelocity2.y *= -1.0;
-            }
-            if(this.CollisionNormal.z != 0){
-                newVelocity2.z *= -1.0;
-            }
+         
+                                                                                                                                          
 
-            //this.Particles[1].Velocity.multiply(-1);
-            this.Particles[1].Velocity =newVelocity2;
+            let speedTowardsFace =this.Particles[1].Velocity.dot(this.CollisionNormal);
+           
+            let relfectVector =this.CollisionNormal.multiplyBy(-2*speedTowardsFace);
+
+            console.log(this.CollisionNormal.multiplyBy(2*speedTowardsFace));
+            this.Particles[1].Velocity.add(relfectVector);
+            this.Particles[1].Velocity.multiply(0.9);
         }
 
        // let newSeparatingVelocity = separatingVelocity.multiplyBy(-1).multiplyBy(this.Restitution);
