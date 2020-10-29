@@ -17,38 +17,29 @@ export default class BallisticScene extends Scene{
         super();
 
 
-        this._Camera.transform.position = new Vector3(0,40,200);
+        this._Camera.transform.position = new Vector3(100,85,317);
     }
 
     Step(){
-        
-        //console.time("Time per Scene Update");
-
         super.Step();
-        if(Input.Key == Input.KeyKode.C){
-            //this.spawnBullet(BallisticScene.BulletTypes.Pistol);
-        }
-        
-        //console.timeEnd();
     }
 
     BuildScene(){
-        // this.spawnBullet(BallisticScene.BulletTypes.Pistol);
 
-        for(let i =0; i<2; i++){
-            let x= Math.random()*100 -50;
-            let z= Math.random()*100 -50;
-            let y= Math.random()*50 +1 ;
+        for(let i =0; i<25; i++){
+            let x= Math.random()*190 -95;
+            let z= Math.random()*190 -95;
+            let y= Math.random()*100 +1 ;
 
-            x =10;
-            z =20;
+            // x =10;
+            // z =20;
 
-            let dx= Math.random()*6 -3;
-            let dz= Math.random()*6 -3;
-            let dy= Math.random()*6 -3;
+            let dx= Math.random()*5 -3;
+            let dz= Math.random()*5 -3;
+            let dy= Math.random()*5 -3;
 
-             dx =0;
-             dz =0;
+            //  dx =10;
+            //  dz =10;
 
 
             this.spawnCube(new Vector3(x,y,z), new Vector3(dx,dy,dz));
@@ -108,15 +99,7 @@ export default class BallisticScene extends Scene{
 
         }
      
-        // {
-        //     let newGameObject =new GameObject();
-        //     var MeshDataComponent = newGameObject.AddComponent("meshData",new MeshData(new Shapes.Cube()));
-        //     newGameObject.transform.position = new Vector3(0,50,-100);
-        //     newGameObject.transform.scale(100,100,1); 
-        //     this.AddObject(this._SceneObject,newGameObject);
-        // }
       
-       
     }
 
     spawnCube(position, velocity){
@@ -126,10 +109,9 @@ export default class BallisticScene extends Scene{
 
 
 
-        rigidBody.dumping = 0.999;
-            // rigidBody.dumping = Math.random();
+        rigidBody.dumping = 0.99;
         
-        rigidBody.Restitution = 0.9;
+        rigidBody.Restitution = 0.99;
         rigidBody.Mass= 1.0;
 
         newGameObject.transform.position = position.copyVector();

@@ -120,7 +120,7 @@ export default class PhysicsContact{
            
             let relfectVector =this.CollisionNormal.multiplyBy(-2*speedTowardsFace);
 
-            console.log(this.CollisionNormal.multiplyBy(2*speedTowardsFace));
+            //console.log(this.CollisionNormal.multiplyBy(2*speedTowardsFace));
             this.Particles[1].Velocity.add(relfectVector);
             this.Particles[1].Velocity.multiply(0.9);
         }

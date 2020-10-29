@@ -38,33 +38,9 @@ export default class CollisionResolver{
     
     update(){
         this.registerCollisions();
-        //console.log("WTF")
         this.resolveCollisions();
         this.Collsions.length =0;
     }
-
-    // step(GameObject){
-    //     this.registerCollisionWithObject(GameObject);
-    //     this.resolveCollisions();
-    //     this.Collsions.length =0;
-    // }
-
-    // registerCollisionWithObject(GameObject){
-    //     for( let i=0; i< this.GameObjects.length; i++){
-            
-    //         //if(this.GameObjects[i] === GameObject) continue;
-
-    //         console.log("tester message");
-    //         let collision = this.CheckCollision(GameObject, this.GameObjects[i]);
-    //         console.log(collision);
-    //         if(collision){
-    //             this.Collsions.push(collision);
-    //         }
-    //     }
-
-       
-        
-    // }
 
     registerCollisions(){
         for( let i=0; i< this.GameObjects.length-1; i++){
@@ -93,32 +69,29 @@ export default class CollisionResolver{
         }
                 
         let vertices1 =  this.GetGlobalMeshData(meshData1);
-        let normals1 =this.ConverVector3Array(meshData1._shape.VertexNormals);
-        //console.log(normals1,vertices1);
-
+       
 
         let vertices2 = this.GetGlobalMeshData(meshData2);
         let normals2 =this.ConverVector3Array(meshData2._shape.VertexNormals);
 
 
+
+         //Check if boundries overlap
         let boxExtents1 = this.GetBoxExtents(vertices1);
         let boxExtents2 = this.GetBoxExtents(vertices2);
 
+
+       
         let overlap = (boxExtents1.XAxis.minX < boxExtents2.XAxis.maxX && boxExtents1.XAxis.maxX >= boxExtents2.XAxis.minX)&&
                     (boxExtents1.YAxis.minY < boxExtents2.YAxis.maxY && boxExtents1.YAxis.maxY >= boxExtents2.YAxis.minY)&&                                                               
                     (boxExtents1.ZAxis.minZ < boxExtents2.ZAxis.maxZ && boxExtents1.ZAxis.maxZ >= boxExtents2.ZAxis.minZ);
-
-        if(!overlap){
-            
-            return;
-        }
-
-        //console.log("Collision", gameObject1, gameObject2);
-
         
-      
+        
+        if(!overlap){
+            return;
+        } 
 
-      
+        //Get rigidBody components
         let rigidBody1 =gameObject1.GetComponent("RigidBody");
         let rigidBody2;
 
@@ -128,13 +101,9 @@ export default class CollisionResolver{
         else{
             rigidBody2 = gameObject2.GetComponent("RigidBody");
         }
-
-
         if(!rigidBody1){
             return;
         }
-
-
 
         let biggestCollision = { 
             collisionNormal: new Vector3(0,0,0),
@@ -143,48 +112,34 @@ export default class CollisionResolver{
         
         //Get CollisionNormal
         for( let i=0; i< vertices1.length; i++){
-            // if(rigidBody1.Velocity.dot(normals1[i])>=0){
-            //     continue;
-            // }
-
+          
             for(let j=0; j<vertices2.length;j++){
-                // if(rigidBody1.Velocity.dot(normals2[j])>=0){
-                //     continue;
-                // }
-
                 let vectorDifference =vertices1[i].subtractby(vertices2[j]);
-                
-
 
                 let dotProduct =vectorDifference.dot(normals2[j]);
-                console.log([vectorDifference.length(),dotProduct]);
-                //console.log()
                 if(dotProduct>0){
                     if(dotProduct>biggestCollision.dotProduct){
                         biggestCollision.dotProduct = dotProduct;
                         biggestCollision.collisionNormal = normals2[j];
 
-
-                        //console.log(normals2[j]);
-                      
                     }
                     
                 }
             }
         }
 
-        console.log(biggestCollision.collisionNormal);
-        
-
 
         let physicsContact = new PhysicsContact(rigidBody1,rigidBody2);
 
-        //console.log(physicsContact);
-        //console.log(rigidBody1, rigidBody2);
+      
         physicsContact.CollisionNormal = biggestCollision.collisionNormal;    
 
-        console.log(-biggestCollision.dotProduct);
+       
         physicsContact.penetration =-biggestCollision.dotProduct;
+
+        // physicsContact.CollisionNormal = normal;           
+        // physicsContact.penetration =-OverlapVector.length();
+
         return physicsContact;
     }
 
@@ -238,23 +193,25 @@ export default class CollisionResolver{
     }
 
 
-    GetShapePlanes(shape){
-        let vertices = this.ConverVector3Array(shape.VertexPositions);
-
+    GetShapePlanes(meshData){
+        let vertices =this.GetGlobalMeshData(meshData);
+        let normals1 =this.ConverVector3Array(meshData._shape.VertexNormals);
         let Planes = [];
 
         for(let i=0; i< vertices.length/4; i++){
             let startVertex = i*4;
             
-            Planes.push({
-                point1: vertices[startVertex],
-                point2: vertices[startVertex+1],
-                point3: vertices[startVertex+2],
-                point4: vertices[startVertex+3]
-            })
+            let Plane = {
+                vertices :[ vertices[startVertex],
+                            vertices[startVertex+1],
+                            vertices[startVertex+2],
+                            vertices[startVertex+3]
+                ],
+                normal :normals1[startVertex]
+            }
+
+            Planes.push(Plane);
         }
-
-
         return Planes;
     }
 
